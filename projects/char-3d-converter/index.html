@@ -1,0 +1,106 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="上傳手繪的多視圖，把角色或道具做成可匯出的 3D 模型。">
+  <title>Char3D Converter | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/char-3d-converter/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-creative">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>創作工具</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-16">2026.11.16</time></span>
+      </div>
+      <h1>Char3D Converter</h1>
+      <p>上傳手繪的多視圖，把角色或道具做成可匯出的 3D 模型。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/char-3d-converter-/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/char-3d-converter-">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>以頭、身體、手腳與配件為單位上傳正面、側面、背面或頂部圖片。模型可在瀏覽器旋轉、雕刻和調整位置，角色也能試播內建動作，最後輸出 GLB 或含載入器與示範頁的遊戲套件。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>Three.js</dt><dd>繪製角色、操作控制器與動畫預覽。</dd></div>
+            <div><dt>Canvas</dt><dd>裁切、去背、對齊視圖及烘焙貼圖。</dd></div>
+            <div><dt>Surface Nets</dt><dd>從距離場擷取網格，再用 meshoptimizer 減面。</dd></div>
+            <div><dt>IndexedDB</dt><dd>保存暫存和儲存庫，支援的桌面瀏覽器也可選取資料夾。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>轉換在瀏覽器內進行。照片先成為對齊的輪廓與貼圖輸入，建立各部件的網格後再組裝角色。</p>
+          <ol class="flow tone-creative" role="list" aria-label="資料流程">
+            <li>裁切與對齊</li><li>輪廓生成網格</li><li>貼圖與減面</li><li>組裝並匯出</li>
+          </ol>
+          <div class="related">
+            <span>相關專案</span>
+            <a href="../3d-conv-house/">3D 轉換屋 <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>素材編輯</h3>
+              <p>切出主體後，各視圖可獨立對齊、擦除與變形。以操作記錄保留原圖，讓重做模型時能重播調整。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/char-3d-converter-/blob/main/js/crop.js"><code>js/crop.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/char-3d-converter-/blob/main/js/align.js"><code>js/align.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/char-3d-converter-/blob/main/js/imgedit.js"><code>js/imgedit.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>幾何與貼圖</h3>
+              <p>依模式建立距離場，由 Surface Nets 取得表面。平滑、雕刻和變形先在高面數網格執行，再烘焙多方向貼圖並套用面數預算。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/char-3d-converter-/blob/main/js/converter.js"><code>js/converter.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/char-3d-converter-/blob/main/js/surfacenets.js"><code>js/surfacenets.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/char-3d-converter-/blob/main/js/sculpt.js"><code>js/sculpt.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>串接和保存</h3>
+              <p>角色層負責部件、骨架節點、配件插槽及動畫。儲存庫和匯出器分開管理可編輯專案檔與遊戲資產。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/char-3d-converter-/blob/main/js/character.js"><code>js/character.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/char-3d-converter-/blob/main/js/library.js"><code>js/library.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/char-3d-converter-/blob/main/js/exporter.js"><code>js/exporter.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-creative">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>視圖誤差熱圖</h3><p>標示正交投影下的輪廓偏差，協助找出需要重新對齊的局部。</p></li>
+            <li><h3>引擎匯出預設</h3><p>提供 Godot、Unity 與 Three.js 的座標、面數和貼圖大小預設。</p></li>
+            <li><h3>互動重建佇列</h3><p>把耗時的幾何重建移到 Worker，允許取消過時的編輯結果。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

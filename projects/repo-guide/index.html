@@ -1,0 +1,101 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="用一個可搜尋的工程索引，串起 Dotdot 的公開作品。">
+  <title>Repo Guide for Dotdot | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/repo-guide/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-tools">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>實用工具</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-19">2026.11.19</time></span>
+      </div>
+      <h1>Repo Guide for Dotdot</h1>
+      <p>用一個可搜尋的工程索引，串起 Dotdot 的公開作品。</p>
+      <div class="detail-actions">
+        <a class="button button--outline" href="https://github.com/Dot7dot/Repo-Guide-for-Dotdot">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>這個網站收錄 2026 年 10 月起建立的公開 GitHub 專案。首頁提供依類別與技術關鍵字瀏覽的卡片，詳情頁把用途、資料流、原始碼入口和擴充構想放在一起，方便快速判斷要從哪裡開始讀。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>Node.js</dt><dd>在建置時讀取專案資料並輸出首頁和每個專案的 HTML。</dd></div>
+            <div><dt>HTML / CSS</dt><dd>提供可直接開啟的詳情網址與響應式色塊排版。</dd></div>
+            <div><dt>JavaScript</dt><dd>在瀏覽器過濾既有卡片，並把條件同步到網址。</dd></div>
+            <div><dt>GitHub Pages</dt><dd>從 main 分支發布建置好的靜態頁。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>一份專案資料驅動首頁與詳情頁。瀏覽器直接讀取建置後的 HTML，只在搜尋與篩選時需要執行 JavaScript。</p>
+          <ol class="flow tone-tools" role="list" aria-label="資料流程">
+            <li>專案資料</li><li>產生 HTML</li><li>GitHub Pages</li><li>瀏覽與篩選</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>專案資料</h3>
+              <p>每筆以固定 slug 產生獨立網址。建立日期、技術用途、資料流、原始碼路徑與構想集中維護。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Repo-Guide-for-Dotdot/blob/main/data/projects.json"><code>data/projects.json</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>靜態建置</h3>
+              <p>檢查 slug、類別與相關專案參照，依建立日期輸出卡片與詳情頁。資產以相對路徑載入，可部署在 repo 子路徑。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Repo-Guide-for-Dotdot/blob/main/scripts/build.mjs"><code>scripts/build.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>瀏覽與發布</h3>
+              <p>關鍵字和類別可交叉篩選，網址記錄目前條件。GitHub Pages 從 main 根目錄直接發布網頁和樣式，透過 .nojekyll 跳過 Jekyll。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Repo-Guide-for-Dotdot/blob/main/public/catalog.js"><code>public/catalog.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Repo-Guide-for-Dotdot/blob/main/README.md"><code>README.md</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-tools">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>新 repo 待整理清單</h3><p>定期比對公開 repo 清單，開出待補架構說明的 PR，讓發布前仍可人工校對。</p></li>
+            <li><h3>跨專案技術地圖</h3><p>將共用的 IndexedDB、PWA 與影像處理流程做成可點擊的關聯圖。</p></li>
+            <li><h3>來源變更提示</h3><p>對照記錄的 commit，提醒維護者重新核對已搬移或改寫的模組連結。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

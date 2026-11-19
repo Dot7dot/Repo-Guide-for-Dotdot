@@ -1,0 +1,106 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="走進即時生成的霧林，拍下沿途出沒的太平山生物。">
+  <title>Climber Walk | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/climber-walk/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-play">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>遊戲</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-16">2026.11.16</time></span>
+      </div>
+      <h1>Climber Walk</h1>
+      <p>走進即時生成的霧林，拍下沿途出沒的太平山生物。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Climber-Walk/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Climber-Walk">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>在瀏覽器裡散步、撿垃圾或換裝，沿著霧林步道尋找日夜出沒的生物。相機會根據取景、距離與遮擋給予評價，拍到的物種留在遊戲圖鑑。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>WebGPU / WGSL</dt><dd>手寫渲染管線，處理霧氣、光照、植被和色調映射。</dd></div>
+            <div><dt>JavaScript</dt><dd>即時生成地形、植被、動物模型及互動。</dd></div>
+            <div><dt>IndexedDB</dt><dd>存圖鑑照片，步行和解鎖進度另存在 localStorage。</dd></div>
+            <div><dt>Python</dt><dd>將自然手記的物種事實資料轉為遊戲使用的內嵌資料。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>原始碼和著色器集中在同一份 HTML。建置會將它縮成自包含的發布檔，遊戲啟動後由瀏覽器生成場景和模擬生物。</p>
+          <ol class="flow tone-play" role="list" aria-label="資料流程">
+            <li>載入場景程式</li><li>生成地形與物種</li><li>WebGPU 繪圖</li><li>拍照更新圖鑑</li>
+          </ol>
+          <div class="related">
+            <span>相關專案</span>
+            <a href="../creature-collection-guy/">Creature Collection Guy <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>來源與建置</h3>
+              <p>在 src/game.html 編輯可閱讀的程式。建置腳本產生單檔 index.html，物種腳本只嵌入名稱、分類和觀察統計等事實資料。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Climber-Walk/blob/main/tools/build.mjs"><code>tools/build.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Climber-Walk/blob/main/tools/gen_species.py"><code>tools/gen_species.py</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>場景與效能</h3>
+              <p>地形、步道和植被由程式生成。渲染使用區塊視錐剔除、植被 LOD 與依幀時間調整解析度，並支援 WebGPU 相容路徑。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Climber-Walk/blob/main/src/game.html"><code>src/game.html</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Climber-Walk/blob/main/README.md"><code>README.md</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>生態與圖鑑</h3>
+              <p>生物出現機率參考月份、日夜與觀察統計。拍照時檢查取景範圍、大小與遮擋，將最佳照片和評價保存到圖鑑。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Climber-Walk/blob/main/src/game.html"><code>src/game.html</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-play">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>攝影任務</h3><p>以晨霧、暮色或稀有動物為題，讓玩家用不同路線完成一組照片。</p></li>
+            <li><h3>觀察日誌</h3><p>在遊戲內並排顯示模擬目擊紀錄與來源物種的月份統計。</p></li>
+            <li><h3>場景效能面板</h3><p>顯示幀時間、解析度、可見區塊和植被級別，方便調整行動裝置的畫質。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

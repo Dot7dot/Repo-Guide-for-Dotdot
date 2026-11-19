@@ -1,0 +1,106 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="依圖鑑編號和地區型態，整理周邊、卡片及畫作收藏。">
+  <title>My Pokémon Collection | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/my-pokemon-collection/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-tools">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>實用工具</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-08">2026.11.08</time></span>
+      </div>
+      <h1>My Pokémon Collection</h1>
+      <p>依圖鑑編號和地區型態，整理周邊、卡片及畫作收藏。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/My-Pokemon-Collection/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/My-Pokemon-Collection">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>個人收藏庫依寶可夢的世代、編號和地區型態歸類。拍下實體卡可做透視校正，公仔或色違照片則能製成可翻面、會隨手勢反光的自製卡片。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>PokéAPI</dt><dd>提供圖鑑資料的來源與可載入的圖像。</dd></div>
+            <div><dt>Canvas</dt><dd>壓縮照片，並用四點對應校正實體卡的透視。</dd></div>
+            <div><dt>CSS 3D / DeviceOrientation</dt><dd>處理翻面、卡片傾斜和反光動畫。</dd></div>
+            <div><dt>IndexedDB</dt><dd>本機保存收藏文字與照片，支援 ZIP 備份。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>靜態圖鑑與使用者收藏分開管理。前端以編號和型態關聯兩者；實體卡和自製卡各有處理流程，最後使用同一套卡片檢視。</p>
+          <ol class="flow tone-tools" role="list" aria-label="資料流程">
+            <li>選圖鑑與型態</li><li>拍攝並校正</li><li>保存收藏與照片</li><li>瀏覽立體卡</li>
+          </ol>
+          <div class="related">
+            <span>相關專案</span>
+            <a href="../cardking/">CardKing <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>圖鑑與索引</h3>
+              <p>基礎圖鑑包含多語名稱、世代與屬性，地區型態另有定義。收藏依編號與型態篩選，也能用文字和類別交叉搜尋。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/My-Pokemon-Collection/blob/main/js/dex.js"><code>js/dex.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/My-Pokemon-Collection/blob/main/js/forms.js"><code>js/forms.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/My-Pokemon-Collection/blob/main/js/app.js"><code>js/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>影像與卡片</h3>
+              <p>實體卡使用四角對應做透視校正。自製卡有獨立編輯介面，兩種卡的檢視都支援拖曳、翻面和可選的裝置方向。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/My-Pokemon-Collection/blob/main/js/capture.js"><code>js/capture.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/My-Pokemon-Collection/blob/main/js/align.js"><code>js/align.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/My-Pokemon-Collection/blob/main/js/madecard.js"><code>js/madecard.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/My-Pokemon-Collection/blob/main/js/card3d.js"><code>js/card3d.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>照片與備份</h3>
+              <p>收藏文字與照片位元組分開存放。備份檔含 collection.json 和可獨立讀取的照片，匯入可在其他裝置還原。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/My-Pokemon-Collection/blob/main/js/db.js"><code>js/db.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/My-Pokemon-Collection/blob/main/js/backup.js"><code>js/backup.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-tools">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>收藏牆版面</h3><p>挑選幾件收藏排成桌布或列印頁，讓相片和心得有多種排列。</p></li>
+            <li><h3>匯入前比對</h3><p>預覽新增、重複和有衝突的項目，再決定如何合併。</p></li>
+            <li><h3>離線巡覽</h3><p>可預先快取選定世代的圖鑑縮圖，外出整理時仍能辨識條目。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

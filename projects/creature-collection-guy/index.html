@@ -1,0 +1,106 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="拍照記錄動物、植物和風景，搭配太平山生物圖鑑。">
+  <title>Creature Collection Guy | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/creature-collection-guy/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-tools">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>實用工具</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-13">2026.11.13</time></span>
+      </div>
+      <h1>Creature Collection Guy</h1>
+      <p>拍照記錄動物、植物和風景，搭配太平山生物圖鑑。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Creature-Collection-Guy-CCG/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Creature-Collection-Guy-CCG">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>拍攝正方形照片，補上名稱和備註，整理成個人自然相簿。太平山圖鑑可依月份、類群或名稱探索，從物種頁也能帶入物種名稱開始記錄。照片先存入裝置，附近地名可稍後補上。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>Canvas</dt><dd>將相機或相簿圖像裁成正方形。</dd></div>
+            <div><dt>Geolocation</dt><dd>定位後交給 OpenStreetMap 或選用的 Google Places 查地點。</dd></div>
+            <div><dt>IndexedDB</dt><dd>在本機保存照片、備註、地點和待處理狀態。</dd></div>
+            <div><dt>Python</dt><dd>彙整物種資料和具授權的照片，產出靜態圖鑑。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>相簿和地點查詢分開處理。記錄可以先保存，地名異步回填；物種圖鑑則在發布前整理成 JSON。</p>
+          <ol class="flow tone-tools" role="list" aria-label="資料流程">
+            <li>拍照與分類</li><li>寫入本機相簿</li><li>背景查詢地名</li><li>瀏覽或修訂</li>
+          </ol>
+          <div class="related">
+            <span>相關專案</span>
+            <a href="../climber-walk/">Climber Walk <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>相機與相簿</h3>
+              <p>相機與選檔共用裁切流程。保存時帶入日期、類別、名稱與備註，再以 IndexedDB 讀寫清單和詳細資料。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Creature-Collection-Guy-CCG/blob/main/app.js"><code>app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>附近地名</h3>
+              <p>預設依距離和地標類型挑出附近的 OpenStreetMap 地點，可設定 Google Places。暫時查不到時保留待查狀態並於重連後重試。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Creature-Collection-Guy-CCG/blob/main/places.js"><code>places.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Creature-Collection-Guy-CCG/blob/main/app.js"><code>app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>圖鑑資料管線</h3>
+              <p>建置腳本整理園區、iNaturalist、TaiCOL 等來源。前端依學名、科名、特徵與月份觀察量搜尋或篩選。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Creature-Collection-Guy-CCG/blob/main/tools/build_guide.py"><code>tools/build_guide.py</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Creature-Collection-Guy-CCG/blob/main/guide.js"><code>guide.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Creature-Collection-Guy-CCG/blob/main/guide/species.json"><code>guide/species.json</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-tools">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>離線步道包</h3><p>先下載選定步道的物種條目與授權縮圖，讓沒有訊號時也能查閱。</p></li>
+            <li><h3>模糊定位分享</h3><p>輸出觀察卡時可選擇只顯示園區或步道，保留敏感物種位置在本機。</p></li>
+            <li><h3>季節觀察回顧</h3><p>依照片日期和地點做月度回顧，對照圖鑑的月份分布。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

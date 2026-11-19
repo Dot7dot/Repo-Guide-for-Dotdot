@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="從血壓計拍照帶入讀數，在日曆和趨勢圖回顧早晚紀錄。">
+  <title>Blood Pressure Diary | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/blood-pressure/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-health">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>生活健康</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-07">2026.11.07</time></span>
+      </div>
+      <h1>Blood Pressure Diary</h1>
+      <p>從血壓計拍照帶入讀數，在日曆和趨勢圖回顧早晚紀錄。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Blood-Pressure/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Blood-Pressure">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>記錄量測時間、收縮壓、舒張壓與脈搏。支援手動輸入或照片辨識，確認後保存到當日日曆。趨勢圖可切換指標、早晚、期間及每日取值方式。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>Canvas / OCR</dt><dd>以灰階二值化與候選框分析讀取七段顯示器。</dd></div>
+            <div><dt>int8 模型</dt><dd>用 JavaScript 在裝置上辨識候選數字。</dd></div>
+            <div><dt>SVG</dt><dd>繪製趨勢圖、參考線和觸控準線。</dd></div>
+            <div><dt>PWA / localStorage</dt><dd>離線開啟頁面，紀錄與設定保存於瀏覽器。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>相機和手動輸入共用確認表單。正式紀錄寫入本機後，日曆和趨勢圖依時間重整資料。</p>
+          <ol class="flow tone-health" role="list" aria-label="資料流程">
+            <li>拍照或手動輸入</li><li>確認時間和數字</li><li>本機保存</li><li>彙整日曆與趨勢</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>影像辨識</h3>
+              <p>以 Sauvola 二值化處理光線差異，從連通元件找出數字候選。量化模型分類後，依位置與大小排列成血壓和脈搏三列。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Blood-Pressure/blob/main/js/ocr.js"><code>js/ocr.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Blood-Pressure/blob/main/js/digit-model.js"><code>js/digit-model.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Blood-Pressure/blob/main/tools/train.py"><code>tools/train.py</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>拍照與確認</h3>
+              <p>相機在對準範圍內重複辨識，結果穩定時才帶入表單。使用者可更正讀數、選擇時刻再保存。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Blood-Pressure/blob/main/js/camera.js"><code>js/camera.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Blood-Pressure/blob/main/js/app.js"><code>js/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Blood-Pressure/blob/main/js/wheel.js"><code>js/wheel.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>日期、匯入與圖表</h3>
+              <p>本機資料層整理早晚時段並在匯入時去除重複。圖表依期間及日彙整規則產生折線和明細表。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Blood-Pressure/blob/main/js/store.js"><code>js/store.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Blood-Pressure/blob/main/js/chart.js"><code>js/chart.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-health">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>讀數確認框</h3><p>辨識時將三行候選數字疊在照片上，標示低信心的欄位讓使用者修正。</p></li>
+            <li><h3>可列印紀錄</h3><p>輸出選定期間的早晚讀數、日期與註記，方便帶去看診時查閱。</p></li>
+            <li><h3>量測情境標籤</h3><p>加上使用者自選的時段與情境標籤，回顧時可篩選相近條件。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="抽卡、撕包、翻牌，依系列收集不同稀有度與卡面型態。">
+  <title>CardKing | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/cardking/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-play">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>遊戲</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-04">2026.11.04</time></span>
+      </div>
+      <h1>CardKing</h1>
+      <p>抽卡、撕包、翻牌，依系列收集不同稀有度與卡面型態。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/CardKing/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/CardKing">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>在手機瀏覽器收集卡牌。卡包依系列分組，開包有撕包、逐張翻牌和稀有提示。店內可查機率表，重複卡會換成金幣，也能在圖鑑看自己解鎖了哪些卡。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>JavaScript</dt><dd>實作分系列抽卡、稀有度權重與機率表。</dd></div>
+            <div><dt>Fetch / localStorage</dt><dd>讀取遠端卡池並快取，收藏與金幣保存在裝置。</dd></div>
+            <div><dt>SVG / Web Audio</dt><dd>繪製手繪卡框、開包效果並合成音效。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>卡池來自外部服務，遊戲直接在瀏覽器算抽卡與收藏規則。資料和機率規則集中，呈現層負責動畫與卡片檢視。</p>
+          <ol class="flow tone-play" role="list" aria-label="資料流程">
+            <li>載入及快取卡池</li><li>依權重抽牌</li><li>開包動畫</li><li>更新收藏與圖鑑</li>
+          </ol>
+          <div class="related">
+            <span>相關專案</span>
+            <a href="../tasking/">TASKING <span class="arrow" aria-hidden="true">→</span></a><a href="../my-pokemon-collection/">My Pokémon Collection <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>卡池與機率</h3>
+              <p>卡池按 set 分組。先依權重抽出稀有度，再從該稀有度抽卡，另決定卡面型態。機率表從同一套規則計算。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/CardKing/blob/main/js/data.js"><code>js/data.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>遊戲經濟</h3>
+              <p>紀錄金幣、卡包與收藏。重複卡轉換金幣，圖鑑達成階段目標時會補發該系列卡包。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/CardKing/blob/main/js/data.js"><code>js/data.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/CardKing/blob/main/js/main.js"><code>js/main.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>開包表現</h3>
+              <p>開包流程管理動畫、翻牌順序和略過操作，蠟筆線條、粒子和音效由不同模組即時產生。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/CardKing/blob/main/js/opening.js"><code>js/opening.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/CardKing/blob/main/js/crayon.js"><code>js/crayon.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/CardKing/blob/main/js/sfx.js"><code>js/sfx.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-play">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>機率模擬器</h3><p>比較理論分布和可重現的大量抽樣，調整權重時也能檢查機率表。</p></li>
+            <li><h3>系列收藏冊</h3><p>按主題或卡面型態自由排版，挑出代表卡製作可分享的圖卡。</p></li>
+            <li><h3>自訂離線卡池</h3><p>匯入一組合法授權的本地卡圖和卡池 JSON，讓個人系列也能在離線時測試。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="替書籍整理封面、劃線段落與心得，帶著自己的書架走。">
+  <title>Book Review Library | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/book-review-library/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-learn">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>學習與筆記</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-08">2026.11.08</time></span>
+      </div>
+      <h1>Book Review Library</h1>
+      <p>替書籍整理封面、劃線段落與心得，帶著自己的書架走。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Book-Review-Library/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Book-Review-Library">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>用不同書架管理閱讀筆記，在每本書中放入心得和多張照片。可跨書架搜尋書名、作者和心得，匯出含照片的 JSON 備份。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>IndexedDB</dt><dd>以獨立儲存區保存書架、書籍、照片和中繼資料。</dd></div>
+            <div><dt>Canvas</dt><dd>壓縮匯入照片，減少裝置上的儲存用量。</dd></div>
+            <div><dt>PWA</dt><dd>以 Service Worker 提供離線開啟及主畫面安裝。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>書籍文字與照片位元組分開保存。文字可自動儲存，照片新增或刪除和書籍索引更新由同一筆交易完成。</p>
+          <ol class="flow tone-learn" role="list" aria-label="資料流程">
+            <li>選書架與書籍</li><li>記錄心得或選圖</li><li>寫入本機資料庫</li><li>搜尋或匯出</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>本機資料模型</h3>
+              <p>資料庫將 shelves、books 和 photos 分開。照片的 ArrayBuffer 有獨立記錄，寫入時一起調整書籍的照片 ID 清單。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Book-Review-Library/blob/main/js/db.js"><code>js/db.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>照片壽命</h3>
+              <p>選檔時立即讀入內容再壓縮，避免依賴 iOS 的短期檔案。顯示時才建立 blob 網址，離開視圖後釋放。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Book-Review-Library/blob/main/js/image.js"><code>js/image.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Book-Review-Library/blob/main/js/app.js"><code>js/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>瀏覽與離線</h3>
+              <p>應用層處理書架路由、全域搜尋、內嵌照片檢視及備份。Service Worker 快取網站殼，離線時仍可開啟本機筆記。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Book-Review-Library/blob/main/js/app.js"><code>js/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Book-Review-Library/blob/main/sw.js"><code>sw.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-learn">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>段落卡片</h3><p>把選定照片和讀後心得組成帶書名、頁碼的可列印摘錄。</p></li>
+            <li><h3>閱讀回顧</h3><p>依標籤與時間隨機抽出舊心得，做成個人複習清單。</p></li>
+            <li><h3>Markdown 匯出</h3><p>以書架和書籍建立資料夾，照片獨立輸出供其他筆記工具讀取。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

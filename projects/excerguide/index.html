@@ -1,0 +1,101 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="記下運動時間與備註，一眼看出本週目標進度。">
+  <title>Excerguide | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/excerguide/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-health">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>生活健康</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-12">2026.11.12</time></span>
+      </div>
+      <h1>Excerguide</h1>
+      <p>記下運動時間與備註，一眼看出本週目標進度。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Excerguide/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Excerguide">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>選擇健走、跑步、重訓等類別，記下名稱、時長和備註。首頁彙整今日與本週活動時間，也會依運動強度和體重估算熱量，適合用來回顧自己的運動節奏。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>HTML / CSS</dt><dd>製作黑黃色塊介面、類別入口和進度條。</dd></div>
+            <div><dt>JavaScript</dt><dd>管理輸入、估算和日期分組。</dd></div>
+            <div><dt>localStorage</dt><dd>在裝置上保存運動紀錄與目標設定。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>單頁以原生表單和事件處理新增、編輯及刪除紀錄。每天與每週的統計都由紀錄時間重新計算。</p>
+          <ol class="flow tone-health" role="list" aria-label="資料流程">
+            <li>選擇運動</li><li>輸入時間與備註</li><li>估算並保存</li><li>更新週進度</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>介面與類別</h3>
+              <p>HTML 提供首頁、表單與設定。各類別的 MET 值和小知識放在 app.js 的資料定義，可在選取類別時帶入名稱。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Excerguide/blob/main/index.html"><code>index.html</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Excerguide/blob/main/app.js"><code>app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>估算和統計</h3>
+              <p>用 MET、體重和運動時間估算熱量。以本地時間建立每日、每週起點，彙整分鐘數並比對每週目標。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Excerguide/blob/main/app.js"><code>app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>本機儲存</h3>
+              <p>紀錄和個人設定以 JSON 寫入 localStorage。共用讀寫函式讓沒有資料的首次使用可套用預設值。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Excerguide/blob/main/app.js"><code>app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-health">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>每週訓練對照</h3><p>以小圖比較有氧、肌力和伸展的時間比例，以及近四週進度。</p></li>
+            <li><h3>快速記一筆</h3><p>為常做的運動保留時間和名稱範本，完成後可以一鍵新增紀錄。</p></li>
+            <li><h3>資料匯出</h3><p>支援 CSV 匯出與檢查重複資料的匯入流程，方便做自訂分析。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="每天畫一張給好友看，把自己的作品留在藝術日曆。">
+  <title>Art Day Friends | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/art-day-friends/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-creative">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>創作工具</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-16">2026.11.16</time></span>
+      </div>
+      <h1>Art Day Friends</h1>
+      <p>每天畫一張給好友看，把自己的作品留在藝術日曆。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Art-Day-Friends/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Art-Day-Friends">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>用手機上傳手稿或直接在畫板畫圖，也可以記一段文字。好友能看當天的作品並留言。自己的畫累積在本機日曆，雲端分享只保留當日的壓縮副本，留言可隨日曆備份。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>JavaScript</dt><dd>管理日更動態、日曆、畫板與備份。</dd></div>
+            <div><dt>IndexedDB</dt><dd>保存較高畫質的畫作、本機日記和留言快取。</dd></div>
+            <div><dt>Supabase</dt><dd>在有設定時提供登入、好友、分享與留言。</dd></div>
+            <div><dt>Canvas</dt><dd>即時繪畫，並為同一張圖輸出本機、縮圖與雲端版本。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>本機日曆與好友分享各有一份資料。相同前端可選本機示範後端或 Supabase 後端。</p>
+          <ol class="flow tone-creative" role="list" aria-label="資料流程">
+            <li>畫板或上傳</li><li>縮圖與壓縮</li><li>本機日曆</li><li>同步今日副本</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>畫作處理</h3>
+              <p>畫板或照片得到同一套影像處理流程。本機版長邊上限 2048 px，雲端副本上限 1280 px，縮圖另行生成。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Art-Day-Friends/blob/main/js/sketch.js"><code>js/sketch.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Art-Day-Friends/blob/main/js/imaging.js"><code>js/imaging.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Art-Day-Friends/blob/main/js/app.js"><code>js/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>後端介面</h3>
+              <p>啟動時依是否具備 Supabase 設定選擇實作。示範模式在目前的瀏覽器模擬帳號和動態，雲端模式走 Supabase Auth、資料表和 Storage。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Art-Day-Friends/blob/main/js/backend-local.js"><code>js/backend-local.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Art-Day-Friends/blob/main/js/backend-supabase.js"><code>js/backend-supabase.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>可見性與歸檔</h3>
+              <p>Postgres RLS 控制畫作與留言的可見性，過期的畫作副本由清理流程移除。本機歸檔獨立保存畫作、留言快取和匯出資料。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Art-Day-Friends/blob/main/supabase/schema.sql"><code>supabase/schema.sql</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Art-Day-Friends/blob/main/js/archive.js"><code>js/archive.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-creative">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>每週共畫題目</h3><p>好友可一起參加一個主題，各自上傳並保留原有的當日可見期限。</p></li>
+            <li><h3>日曆冊輸出</h3><p>選一段日期生成可列印的月曆或 PDF，保留畫作和經同意收錄的留言。</p></li>
+            <li><h3>離線發布佇列</h3><p>斷線時先保存本機，重連後讓使用者預覽並送出仍在當日的待分享作品。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

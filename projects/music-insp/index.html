@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="把錄音、歌詞與檔案收成歌曲資料夾，再打包交給 DAW。">
+  <title>Music Insp | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/music-insp/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-creative">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>創作工具</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-06">2026.11.06</time></span>
+      </div>
+      <h1>Music Insp</h1>
+      <p>把錄音、歌詞與檔案收成歌曲資料夾，再打包交給 DAW。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Music-Insp/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Music-Insp">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>一首歌一個資料夾。可立即錄下旋律、記和弦或直接拖進音檔和文件。每個片段都能重新命名、試聽與下載，整首歌也可以連同文字和轉成 WAV 的錄音一起打包。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>MediaRecorder</dt><dd>使用瀏覽器麥克風即時錄製靈感片段。</dd></div>
+            <div><dt>Web Audio</dt><dd>解碼瀏覽器錄音，供 WAV 匯出使用。</dd></div>
+            <div><dt>IndexedDB</dt><dd>儲存歌曲資料夾、文字和檔案內容。</dd></div>
+            <div><dt>JSZip</dt><dd>按檔名打包片段及文字成歌曲 ZIP。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>錄音、文字和上傳檔都以片段形式歸入歌曲。選擇匯出時再讀取內容，依需求轉碼後組成 ZIP。</p>
+          <ol class="flow tone-creative" role="list" aria-label="資料流程">
+            <li>建立歌曲</li><li>錄音、文字或上傳</li><li>保存片段</li><li>預覽或打包</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>輸入公用模型</h3>
+              <p>錄音產生音訊 Blob，上傳保留檔案內容，文字即時保存。同個資料夾可混合不同類型的片段。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Music-Insp/blob/main/app.js"><code>app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Music-Insp/blob/main/index.html"><code>index.html</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>本機資料與瀏覽</h3>
+              <p>IndexedDB 分開保存資料夾與片段，讀取時可轉成臨時網址供媒體預覽。舊資料夾的備註會轉成文字片段。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Music-Insp/blob/main/app.js"><code>app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Music-Insp/blob/main/README.md"><code>README.md</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>音訊與打包</h3>
+              <p>匯出可透過 Web Audio 將錄音解碼後寫成 WAV。JSZip 將文字、錄音及上傳檔以可辨識的名稱打包。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Music-Insp/blob/main/app.js"><code>app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-creative">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>歌曲時間軸</h3><p>手動排列幾段錄音，邊播放邊標註主歌、副歌或待重錄片段。</p></li>
+            <li><h3>錄音波形書籤</h3><p>在波形上標出想保留的時間點，匯出以秒數標記的筆記。</p></li>
+            <li><h3>歌曲資料還原</h3><p>為 ZIP 加上片段型別與順序清單，讓備份可重新匯入並接著編輯。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

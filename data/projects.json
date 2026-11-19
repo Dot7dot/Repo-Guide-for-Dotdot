@@ -11,14 +11,14 @@
       ["Node.js", "在建置時讀取專案資料並輸出首頁和每個專案的 HTML。"],
       ["HTML / CSS", "提供可直接開啟的詳情網址與響應式色塊排版。"],
       ["JavaScript", "在瀏覽器過濾既有卡片，並把條件同步到網址。"],
-      ["GitHub Actions", "建置靜態檔，交給 GitHub Pages 發布。"]
+      ["GitHub Pages", "從 main 分支發布建置好的靜態頁。"]
     ],
     "architecture": "一份專案資料驅動首頁與詳情頁。瀏覽器直接讀取建置後的 HTML，只在搜尋與篩選時需要執行 JavaScript。",
     "flow": ["專案資料", "產生 HTML", "GitHub Pages", "瀏覽與篩選"],
     "modules": [
       {"title": "專案資料", "description": "每筆以固定 slug 產生獨立網址。建立日期、技術用途、資料流、原始碼路徑與構想集中維護。", "files": ["data/projects.json"]},
       {"title": "靜態建置", "description": "檢查 slug、類別與相關專案參照，依建立日期輸出卡片與詳情頁。資產以相對路徑載入，可部署在 repo 子路徑。", "files": ["scripts/build.mjs"]},
-      {"title": "瀏覽與發布", "description": "關鍵字和類別可交叉篩選，網址紀錄目前條件。部署工作流程只上傳建置輸出。", "files": ["public/catalog.js", ".github/workflows/pages.yml"]}
+      {"title": "瀏覽與發布", "description": "關鍵字和類別可交叉篩選，網址記錄目前條件。GitHub Pages 從 main 根目錄直接發布網頁和樣式，透過 .nojekyll 跳過 Jekyll。", "files": ["public/catalog.js", "README.md"]}
     ],
     "ideas": [
       ["新 repo 待整理清單", "定期比對公開 repo 清單，開出待補架構說明的 PR，讓發布前仍可人工校對。"],

@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="按下快門後直接分資料夾，回看靈感照片與筆記。">
+  <title>Insp Camera | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/insp-camera/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-creative">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>創作工具</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-04">2026.11.04</time></span>
+      </div>
+      <h1>Insp Camera</h1>
+      <p>按下快門後直接分資料夾，回看靈感照片與筆記。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Insp-Camera/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Insp-Camera">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>專為快速收集視覺靈感設計。拍照後點取景框周圍的分類即可收存，也能從檔案匯入。相簿支援調整照片、加筆記、移動分類、分享或批次匯出。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>MediaDevices / Canvas</dt><dd>處理即時取景、選檔和照片裁切旋轉。</dd></div>
+            <div><dt>IndexedDB</dt><dd>在瀏覽器保存照片、分類、筆記與設定。</dd></div>
+            <div><dt>Web Share / ZIP</dt><dd>提供系統分享、單圖下載與按資料夾打包。</dd></div>
+            <div><dt>PWA</dt><dd>以 Service Worker 快取 App 自己的檔案。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>相機與匯入是同一個影像管線的入口。轉成適合保存的照片後，使用者決定分類，收藏頁從本機資料讀取與編輯。</p>
+          <ol class="flow tone-creative" role="list" aria-label="資料流程">
+            <li>取景或匯入</li><li>壓縮照片</li><li>選資料夾保存</li><li>編輯或分享</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>擷取與圖片處理</h3>
+              <p>相機有鏡頭切換和原生拍照退回流程。匯入限制檔案大小和像素數，重新編碼為 JPEG 並移除原始 EXIF。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Insp-Camera/blob/main/dist/app.js"><code>dist/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Insp-Camera/blob/main/dist/index.html"><code>dist/index.html</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>分類與本機狀態</h3>
+              <p>照片與設定存入依站點路徑命名的 IndexedDB。主程式處理相簿格狀檢視、筆記自動保存與編輯後復原。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Insp-Camera/blob/main/dist/app.js"><code>dist/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Insp-Camera/blob/main/README.md"><code>README.md</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>離線與發布</h3>
+              <p>Service Worker 以網路優先策略快取外殼。部署只發布 dist 內的檔案，選取的照片和筆記由瀏覽器保留。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Insp-Camera/blob/main/dist/sw.js"><code>dist/sw.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Insp-Camera/blob/main/.github/workflows/pages.yml"><code>.github/workflows/pages.yml</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-creative">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>靈感並排板</h3><p>跨資料夾選照片做成 Mood Board，附上手寫重點後輸出。</p></li>
+            <li><h3>色彩探索</h3><p>在本機提取每張照片的主色，依色票搜尋相近素材。</p></li>
+            <li><h3>可往返的匯出檔</h3><p>在 ZIP 內保留分類、筆記與非破壞式裁切參數，支援重新匯入。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

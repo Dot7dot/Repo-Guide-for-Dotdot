@@ -1,9 +1,8 @@
-import { copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
-const output = join(root, "_site");
 const ownerUrl = "https://github.com/Dot7dot";
 const pagesUrl = "https://dot7dot.github.io/";
 const siteUrl = `${pagesUrl}Repo-Guide-for-Dotdot/`;
@@ -54,6 +53,7 @@ const arrow = direction => `<span class="arrow" aria-hidden="true">${direction}<
 
 function layout({ title, description, path = "", base = "./", script = false, content }) {
   return `<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
 <html lang="zh-Hant-TW">
 <head>
   <meta charset="utf-8">
@@ -62,9 +62,9 @@ function layout({ title, description, path = "", base = "./", script = false, co
   <meta name="description" content="${esc(description)}">
   <title>${esc(title)}</title>
   <link rel="canonical" href="${siteUrl}${path}">
-  <link rel="icon" href="${base}icon.png" type="image/png">
-  <link rel="stylesheet" href="${base}styles.css">
-  ${script ? `<script src="${base}catalog.js" defer></script>` : ""}
+  <link rel="icon" href="${base}public/icon.png" type="image/png">
+  <link rel="stylesheet" href="${base}public/styles.css">${script ? `
+  <script src="${base}public/catalog.js" defer></script>` : ""}
 </head>
 <body id="top">
   <a class="skip-link" href="#main">跳到主要內容</a>
@@ -168,7 +168,8 @@ function fileLink(project, file) {
 
 function renderDetail(project) {
   const path = projectPath(project);
-  const demo = project.demo ? `<a class="button button--dark" href="${pagesUrl}${encodeURIComponent(project.repo)}/">開啟作品 ${arrow("↗")}</a>` : "";
+  const demo = project.demo ? `
+        <a class="button button--dark" href="${pagesUrl}${encodeURIComponent(project.repo)}/">開啟作品 ${arrow("↗")}</a>` : "";
   const related = project.related?.length ? `
           <div class="related">
             <span>相關專案</span>
@@ -184,8 +185,7 @@ function renderDetail(project) {
       </div>
       <h1>${esc(project.title)}</h1>
       <p>${esc(project.summary)}</p>
-      <div class="detail-actions">
-        ${demo}
+      <div class="detail-actions">${demo}
         <a class="button button--outline" href="${repoLink(project)}">GitHub 原始碼 ${arrow("↗")}</a>
       </div>
     </header>
@@ -213,8 +213,7 @@ function renderDetail(project) {
         </section>
         <section id="implementation" class="detail-section">
           <h2>詳細架構</h2>
-          <ul class="module-list">
-            ${project.modules.map(module => `
+          <ul class="module-list">${project.modules.map(module => `
             <li>
               <h3>${esc(module.title)}</h3>
               <p>${esc(module.description)}</p>
@@ -240,15 +239,16 @@ function renderDetail(project) {
   });
 }
 
-await rm(output, { recursive: true, force: true });
-await mkdir(output, { recursive: true });
+// Render before replacing the generated pages so invalid data leaves the previous build readable.
+const home = renderHome();
+const detailPages = projects.map(project => [projectPath(project), renderDetail(project)]);
+await rm(join(root, "projects"), { recursive: true, force: true });
 await Promise.all([
-  ...["styles.css", "catalog.js", "icon.png"].map(name => copyFile(join(root, "public", name), join(output, name))),
-  writeFile(join(output, "index.html"), renderHome()),
-  ...projects.map(async project => {
-    const directory = join(output, projectPath(project));
+  writeFile(join(root, "index.html"), home),
+  ...detailPages.map(async ([path, html]) => {
+    const directory = join(root, path);
     await mkdir(directory, { recursive: true });
-    await writeFile(join(directory, "index.html"), renderDetail(project));
+    await writeFile(join(directory, "index.html"), html);
   }),
 ]);
 

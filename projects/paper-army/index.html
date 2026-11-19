@@ -1,0 +1,105 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="把手繪線條變成遊戲地形，觀察單位如何通過關卡。">
+  <title>Paper Army | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/paper-army/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-play">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>遊戲</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-09">2026.11.09</time></span>
+      </div>
+      <h1>Paper Army</h1>
+      <p>把手繪線條變成遊戲地形，觀察單位如何通過關卡。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Paper-Army/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Paper-Army">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>在紙上畫線拍照，或用手指直接畫出關卡。調整裁切與偵測閾值後，從輪廓辨識出坡面、平台和機關，讓單位在手繪地形上自動對戰。支援單人關卡、同機與連線雙人遊玩。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>Canvas</dt><dd>擷取與處理圖像，繪製紙張、地形和動畫。</dd></div>
+            <div><dt>JavaScript</dt><dd>以固定時間步長推進遊戲模擬。</dd></div>
+            <div><dt>PeerJS / WebRTC</dt><dd>媒合雙人房間並傳輸地形和模擬快照。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>影像處理先把草圖轉成網格與機關。模擬使用相同的地形和單位資料。在連線模式，由房主執行模擬並將快照傳給另一端。</p>
+          <ol class="flow tone-play" role="list" aria-label="資料流程">
+            <li>佈陣與畫線</li><li>偵測線條與形狀</li><li>固定步長模擬</li><li>繪製與同步</li>
+          </ol>
+          <div class="related">
+            <span>相關專案</span>
+            <a href="../draft-collective/">Draft Collective <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>從草圖到地形</h3>
+              <p>沿用 Draft Collective 的局部亮度差偵測，將線條縮成網格。由外部填充判斷實心區，再以輪廓分析標記積水、圓滑面與其他機關。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Paper-Army/blob/main/js/terrain.js"><code>js/terrain.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>模擬與關卡</h3>
+              <p>模擬器更新移動、地形效果和結果。關卡資料定義敵方配置、可用地形和任務，教學文字由獨立模組提供。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Paper-Army/blob/main/js/sim.js"><code>js/sim.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Paper-Army/blob/main/js/levels.js"><code>js/levels.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Paper-Army/blob/main/js/solo-tutorial.js"><code>js/solo-tutorial.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>雙人同步</h3>
+              <p>兩人透過相同房間碼配對，各自提交地形與配置。房主合併地形並跑模擬，客端接收快照供繪圖。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Paper-Army/blob/main/js/net.js"><code>js/net.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Paper-Army/blob/main/js/app.js"><code>js/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Paper-Army/blob/main/js/render.js"><code>js/render.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-play">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>手繪關卡交換</h3><p>把地形和關卡條件輸出成小檔，讓朋友匯入挑戰。</p></li>
+            <li><h3>對戰回放</h3><p>保存初始地形與模擬快照，在時間軸上回看轉折。</p></li>
+            <li><h3>辨識調試圖層</h3><p>切換原圖、二值線條、填區與機關標記，讓使用者知道要改哪一筆。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

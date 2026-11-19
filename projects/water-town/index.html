@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="每次記錄喝水，都能讓一座 3D 小鎮長出新景色。">
+  <title>Water Town | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/water-town/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-health">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>生活健康</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-04">2026.11.04</time></span>
+      </div>
+      <h1>Water Town</h1>
+      <p>每次記錄喝水，都能讓一座 3D 小鎮長出新景色。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Water-Town/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Water-Town">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>設定水壺容量後記錄每日飲水，累積的水量讓小島擴張、植物生長和水源幣增加。可編輯小鎮布局、看飲水日記以及拍一張立體城市明信片。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>Three.js</dt><dd>即時渲染島嶼、植物、建築與畫面截圖。</dd></div>
+            <div><dt>JavaScript</dt><dd>將成長、解鎖與擺放規則獨立於介面。</dd></div>
+            <div><dt>PWA / localStorage</dt><dd>在裝置保存日記與小鎮，離線也可使用。</dd></div>
+            <div><dt>Node.js</dt><dd>以內建測試執行器驗證遊戲規則。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>喝水事件先進到規則層，換算水量與遊戲狀態，再由介面及 Three.js 同步呈現。遊戲狀態可用純 JavaScript 測試。</p>
+          <ol class="flow tone-health" role="list" aria-label="資料流程">
+            <li>選水壺和飲量</li><li>計算水量及成長</li><li>保存日記和地圖</li><li>更新 3D 場景</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>成長與地形規則</h3>
+              <p>規則層處理有效水量、土地解鎖、植物棲地與每日成長。植物、建築和水壺資料集中在獨立模組。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/js/game.js"><code>js/game.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/js/data.js"><code>js/data.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/tests/game.test.mjs"><code>tests/game.test.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>3D 與手勢</h3>
+              <p>模型以程式生成，場景管理觸控旋轉、縮放、格子擺放與截圖。介面將玩家操作轉成規則層的動作。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/js/models.js"><code>js/models.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/js/scene.js"><code>js/scene.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/js/app.js"><code>js/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>載入和離線</h3>
+              <p>先呈現載入畫面再啟動 3D 場景，Service Worker 準備離線需要的靜態檔。日記與小鎮都能從本機存檔恢復。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/js/main.js"><code>js/main.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/js/game.js"><code>js/game.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/sw.js"><code>sw.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-health">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>小鎮成長縮時</h3><p>每日保存輕量布局快照，自動回放地形解鎖與新建物。</p></li>
+            <li><h3>島嶼生態導覽</h3><p>點選植物時標亮適合生長的格子，解釋和水邊、沙地或建物的關係。</p></li>
+            <li><h3>相片模式</h3><p>在不改變遊戲進度的情況下切換時間、天氣與裁切比例來拍攝小鎮。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="將任務分資料夾整理，每完成一項就領一包收藏卡。">
+  <title>TASKING | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/tasking/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-tools">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>實用工具</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-06">2026.11.06</time></span>
+      </div>
+      <h1>TASKING</h1>
+      <p>將任務分資料夾整理，每完成一項就領一包收藏卡。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/TASKING/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/TASKING">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>將長期、每週或每日事項拆成勾選框、筆記與能量條。可拖曳排序、複製及封存資料夾，每日任務會按本地時間重置。完成任務可獲得卡包並建立自己的收藏。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>JavaScript</dt><dd>管理任務狀態、拖曳、滑動和開包視圖。</dd></div>
+            <div><dt>localStorage</dt><dd>儲存資料夾、每日任務及獎勵紀錄。</dd></div>
+            <div><dt>Fetch API</dt><dd>從卡牌服務載入並快取卡池。</dd></div>
+            <div><dt>SVG / Web Audio</dt><dd>即時繪製手寫介面、卡包動畫與音效。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>任務、卡包與收藏使用單一版本化存檔。任務狀態變動先交給獎勵規則，卡牌資料則由獨立模組更新。</p>
+          <ol class="flow tone-tools" role="list" aria-label="資料流程">
+            <li>建立或排序任務</li><li>完成並驗證資格</li><li>發放卡包</li><li>開包加入收藏</li>
+          </ol>
+          <div class="related">
+            <span>相關專案</span>
+            <a href="../cardking/">CardKing <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>任務與手勢</h3>
+              <p>主畫面和資料夾視圖處理三種項目、封存及編輯。長按與滑動各有模組，將操作送回主程式。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/TASKING/blob/main/js/main.js"><code>js/main.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/TASKING/blob/main/js/sortable.js"><code>js/sortable.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/TASKING/blob/main/js/swipe.js"><code>js/swipe.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>重置與獎勵去重</h3>
+              <p>每日清單跨過本地早上八點重置。同一天重做每日任務不重複獎勵，複製資料夾也會保留原任務的獎勵關聯。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/TASKING/blob/main/js/store.js"><code>js/store.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/TASKING/blob/main/js/main.js"><code>js/main.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>卡牌服務與開包</h3>
+              <p>卡池可在背景讀取，暫無符合系列的卡時保留未開卡包。開包動畫和卡片視覺沿用 CardKing 的做法。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/TASKING/blob/main/js/data.js"><code>js/data.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/TASKING/blob/main/js/opening.js"><code>js/opening.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/TASKING/blob/main/js/crayon.js"><code>js/crayon.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-tools">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>任務節奏日曆</h3><p>用熱力圖看不同資料夾的完成頻率，點日期可回顧實際完成項目。</p></li>
+            <li><h3>共享清單模板</h3><p>將資料夾匯出成沒有個人備註和獎勵狀態的模板，匯入後再開始。</p></li>
+            <li><h3>里程碑卡包</h3><p>為多階段清單設計達標獎勵，讓完成一整組任務也有獨立成就。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

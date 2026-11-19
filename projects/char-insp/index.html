@@ -1,0 +1,101 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="把角色設定、對話和多組圖片收進可匯出的角色靈感庫。">
+  <title>Char Insp | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/char-insp/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-creative">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>創作工具</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-07">2026.11.07</time></span>
+      </div>
+      <h1>Char Insp</h1>
+      <p>把角色設定、對話和多組圖片收進可匯出的角色靈感庫。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Char-Insp/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Char-Insp">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>每個角色有固定欄位，包括中英文名、描述、對話、圖示、頭像和角色圖。透過拖放或拍照收集素材，修改自動保存，最後可分開匯出結構化文字與圖片。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>JavaScript</dt><dd>負責角色編輯、拖放、多圖排序與匯出。</dd></div>
+            <div><dt>IndexedDB</dt><dd>獨立保存角色文字和圖片內容。</dd></div>
+            <div><dt>JSON / CSV / ZIP</dt><dd>提供適合遊戲資料管線的輸出，以及完整備份。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>編輯頁針對固定的角色欄位操作本機資料。供遊戲使用的文字與圖片輸出，以及可還原的完整備份走不同流程。</p>
+          <ol class="flow tone-creative" role="list" aria-label="資料流程">
+            <li>建立角色</li><li>填欄位與圖像</li><li>本機自動儲存</li><li>匯出或完整備份</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>角色編輯</h3>
+              <p>各類圖片可以多選、排序或放大瀏覽，對話用可增刪的列表。文字自動儲存時可獨立更新角色紀錄。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Char-Insp/blob/main/js/app.js"><code>js/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Char-Insp/blob/main/js/db.js"><code>js/db.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>遊戲資料輸出</h3>
+              <p>文字可轉成 JSON 或適合試算表的 CSV，圖片依角色及用途分目錄壓縮。可選擇單一角色或全部。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Char-Insp/blob/main/js/export.js"><code>js/export.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Char-Insp/blob/main/js/zip.js"><code>js/zip.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>完整備份與還原</h3>
+              <p>備份記錄原始 ID、文字、圖片與順序。匯入可合併或全量還原，先寫入備份內容，再於全量模式移除多餘舊資料。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Char-Insp/blob/main/js/backup.js"><code>js/backup.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Char-Insp/blob/main/js/db.js"><code>js/db.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-creative">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>角色模板版本</h3><p>保留固定欄位作預設，針對不同遊戲增加可選欄位並用版本遷移。</p></li>
+            <li><h3>對話預覽</h3><p>用名字和頭像把多角色的對話排成簡單視覺小說畫面。</p></li>
+            <li><h3>資產對接</h3><p>讓匯出的角色 ID 對應 Char3D 的模型檔，建立給遊戲載入的角色清單。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

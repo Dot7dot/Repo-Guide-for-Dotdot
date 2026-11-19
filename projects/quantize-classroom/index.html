@@ -1,0 +1,101 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="跟著互動 Notebook 親手把語言模型量化成 4-bit GGUF。">
+  <title>Quantize Classroom | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/quantize-classroom/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-learn">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>學習與筆記</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-10">2026.11.10</time></span>
+      </div>
+      <h1>Quantize Classroom</h1>
+      <p>跟著互動 Notebook 親手把語言模型量化成 4-bit GGUF。</p>
+      <div class="detail-actions">
+        <a class="button button--outline" href="https://github.com/Dot7dot/quatize-classroom">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>透過劇情、闖關和程式練習理解 4-bit 量化。學生在 CPU 上將 SmolLM2 轉成 F16 GGUF，再自己實作 Q4_0、比對 llama.cpp 的結果，最後執行模型並量測品質。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>Python / Jupyter</dt><dd>承載教學任務、檢查器與以 CPU 執行的實作。</dd></div>
+            <div><dt>GGUF / llama.cpp</dt><dd>處理模型轉檔、參考量化及推論。</dd></div>
+            <div><dt>PyTorch</dt><dd>支援必要的模型操作，並作為推論備案。</dd></div>
+            <div><dt>HTML / JavaScript</dt><dd>在 Notebook 內嵌入解剖台、分塊小遊戲等互動。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>教材依任務呼叫檢查器與遊戲進度層。模型工具維護下載、GGUF 讀寫與官方工具執行，讓量化實驗和教學介面各自演進。</p>
+          <ol class="flow tone-learn" role="list" aria-label="資料流程">
+            <li>下載模型</li><li>轉成 F16 GGUF</li><li>實作 Q4_0</li><li>逐位元組比對與推論</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>教材與進度</h3>
+              <p>Notebook 串接題目、提示和嵌入式介面。任務通過後發放 XP、徽章，進度保存到 quest_save.json。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/quatize-classroom/blob/main/quantize_classroom.ipynb"><code>quantize_classroom.ipynb</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/quatize-classroom/blob/main/quest/checks.py"><code>quest/checks.py</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/quatize-classroom/blob/main/quest/game.py"><code>quest/game.py</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>量化與模型格式</h3>
+              <p>參考實作負責分塊縮放與 4-bit 打包，GGUF 工具處理張量與中繼資料。教材將手工結果與 llama-quantize 的 Q4_0 張量逐位元組比較。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/quatize-classroom/blob/main/quest/q4.py"><code>quest/q4.py</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/quatize-classroom/blob/main/quest/ggufkit.py"><code>quest/ggufkit.py</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>工具與完整測試</h3>
+              <p>工具箱處理模型和 llama.cpp 下載，並提供本機備用路徑。整本 Notebook 的測試會填入參考解答後逐格執行。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/quatize-classroom/blob/main/quest/toolbox.py"><code>quest/toolbox.py</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/quatize-classroom/blob/main/tests/run_notebook.py"><code>tests/run_notebook.py</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-learn">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>量化比較關卡</h3><p>以同一個小模型對照 Q4_0 與 Q8_0 的體積、輸出品質及推論耗時。</p></li>
+            <li><h3>誤差視覺化</h3><p>把量化前後的張量差異畫成熱圖，可切換區塊或標記離群權重。</p></li>
+            <li><h3>教師離線包</h3><p>產出可核對雜湊的課程快取與班級用測試報表，方便網路受限的教室。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

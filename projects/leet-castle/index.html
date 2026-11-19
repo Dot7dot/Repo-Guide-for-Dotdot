@@ -1,0 +1,101 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="在瀏覽器解 JavaScript 或 Python 題，帶角色一路闖過程式城堡。">
+  <title>Leet Castle | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/leet-castle/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-learn">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>學習與筆記</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-09">2026.11.09</time></span>
+      </div>
+      <h1>Leet Castle</h1>
+      <p>在瀏覽器解 JavaScript 或 Python 題，帶角色一路闖過程式城堡。</p>
+      <div class="detail-actions">
+        <a class="button button--outline" href="https://github.com/Dot7dot/Leet-Castle">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>故事關卡從函式、迴圈教到動態規劃與堆積，另有每日和難度挑戰。提交程式後會執行測資，再量測成長趨勢，將表現轉成角色的獎勵和成就。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>Web Workers</dt><dd>將判題與量測放在工作執行緒，逾時可中止。</dd></div>
+            <div><dt>Pyodide</dt><dd>以 WebAssembly 在瀏覽器執行 Python。</dd></div>
+            <div><dt>Acorn / Python ast</dt><dd>分析及插樁提交的程式，量測運算與容器用量。</dd></div>
+            <div><dt>CodeMirror</dt><dd>提供瀏覽器內的程式編輯器。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>題庫定義函式簽名、測資、參考解答與量測條件。前端選擇對應的 Worker 執行，通過後用逐步放大的輸入估計時間和空間成長。</p>
+          <ol class="flow tone-learn" role="list" aria-label="資料流程">
+            <li>選題並編輯</li><li>Worker 執行測資</li><li>擬合成長曲線</li><li>評價與獎勵</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>題庫與教學</h3>
+              <p>題目資料提供雙語參考解答、範例、測資產生器及比較規則。故事定義路線和課程，共用模型處理鏈結串列與樹。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Leet-Castle/blob/main/js/data/problems.js"><code>js/data/problems.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Leet-Castle/blob/main/js/data/story.js"><code>js/data/story.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Leet-Castle/blob/main/js/shared.js"><code>js/shared.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>判題與量測</h3>
+              <p>執行器把提交送到對應語言的 Worker。通過後統計操作與暫存容量的變量，用多個輸入規模擬合近似複雜度。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Leet-Castle/blob/main/js/engine/runner.js"><code>js/engine/runner.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Leet-Castle/blob/main/js/engine/complexity.js"><code>js/engine/complexity.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Leet-Castle/blob/main/js/engine/py-worker.js"><code>js/engine/py-worker.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>遊戲狀態</h3>
+              <p>以得分更新金幣、寶箱、角色服裝與成就。存檔留在 localStorage，能以存檔碼匯出或還原。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Leet-Castle/blob/main/js/game.js"><code>js/game.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Leet-Castle/blob/main/js/ui/play.js"><code>js/ui/play.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Leet-Castle/blob/main/selftest.html"><code>selftest.html</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-learn">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>同題雙解比較</h3><p>保留兩次通過的提交，疊畫輸入大小與操作次數曲線。</p></li>
+            <li><h3>可攜題組</h3><p>讓老師匯入受版本控制的題目清單與測資，建立特定主題的城堡樓層。</p></li>
+            <li><h3>複習支線</h3><p>依先前失敗的觀念挑出短練習，幾天後重訪同一類問題。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

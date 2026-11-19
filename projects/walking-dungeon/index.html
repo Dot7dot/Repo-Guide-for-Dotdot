@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="把真實步行距離換成地牢步數，探索並招募生物。">
+  <title>Walking Dungeon | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/walking-dungeon/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-play">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>遊戲</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-09">2026.11.09</time></span>
+      </div>
+      <h1>Walking Dungeon</h1>
+      <p>把真實步行距離換成地牢步數，探索並招募生物。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Walking-Dungeon/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Walking-Dungeon">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>走路取得可在地牢使用的步數。每次離開後會生成新地牢，可找寶箱、採水果或餵食生物，讓牠們跟著探索。也能回小窩佈置家具或調整隊伍。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>Geolocation / DeviceMotion</dt><dd>從定位或動作感測取得步行進度。</dd></div>
+            <div><dt>Web Bluetooth</dt><dd>在支援的瀏覽器讀取 FTMS 和 RSC 裝置距離。</dd></div>
+            <div><dt>JavaScript</dt><dd>實作地牢生成、步數消耗、物品及生物互動。</dd></div>
+            <div><dt>PWA</dt><dd>快取遊戲外殼，進度保存於 localStorage。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>走路追蹤器將不同感測來源換算成可消耗步數。遊戲規則與 DOM 分離，地牢、隊伍與小窩從相同狀態更新。</p>
+          <ol class="flow tone-play" role="list" aria-label="資料流程">
+            <li>定位或其他計步</li><li>換算與對帳</li><li>消耗步數探索</li><li>存入遊戲進度</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>計步與退回流程</h3>
+              <p>自動模式先嘗試 GPS，再改用動作感測。另可選藍牙或輸入今日步行總量，手動同步只補未計入的差額。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Walking-Dungeon/blob/main/js/tracker.js"><code>js/tracker.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Walking-Dungeon/blob/main/tests/tracker.test.mjs"><code>tests/tracker.test.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>地牢規則</h3>
+              <p>地牢生成器讓地塊可互通，移動和互動由規則層分別判定。生物食物偏好和能力與玩法邏輯分開定義。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Walking-Dungeon/blob/main/js/logic.js"><code>js/logic.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Walking-Dungeon/blob/main/js/data.js"><code>js/data.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Walking-Dungeon/blob/main/tests/logic.test.mjs"><code>tests/logic.test.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>畫面與存檔</h3>
+              <p>主程式綁定觸控、鍵盤和面板操作，再把狀態交給圖像層。版本化本機存檔提供匯出和匯入。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Walking-Dungeon/blob/main/js/main.js"><code>js/main.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Walking-Dungeon/blob/main/js/store.js"><code>js/store.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Walking-Dungeon/blob/main/js/sprites.js"><code>js/sprites.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-play">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>每日相同地牢</h3><p>用日期當種子，讓朋友各自探索同一個關卡並分享通關路線。</p></li>
+            <li><h3>計步來源時間線</h3><p>把 GPS、藍牙與手動同步的貢獻分開標出，便於核對補算。</p></li>
+            <li><h3>小窩明信片</h3><p>把家具配置與目前生物隊伍輸出成可分享的圖卡。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="同一個入口操作不同的 2D 轉 3D 工具，預覽並下載 GLB。">
+  <title>3D 轉換屋 | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/3d-conv-house/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-creative">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>創作工具</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-16">2026.11.16</time></span>
+      </div>
+      <h1>3D 轉換屋</h1>
+      <p>同一個入口操作不同的 2D 轉 3D 工具，預覽並下載 GLB。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/3D-conv-house/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/3D-conv-house">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>選擇要製作的物件，依各工具的說明上傳照片、調整參數，再預覽和下載 3D 檔。例如卡片走獨立轉換 API，角色與道具可直接在嵌入的 Char3D Converter 裡操作。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>Node.js / Express</dt><dd>提供物件清單與轉換 API 轉接。</dd></div>
+            <div><dt>JavaScript</dt><dd>依 manifest 動態繪製上傳欄位和參數。</dd></div>
+            <div><dt>model-viewer</dt><dd>在瀏覽器顯示可旋轉的 GLB 預覽。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>API 型工具透過 manifest 宣告表單與輸出格式，嵌入型工具則各自帶完整介面。靜態部署與 Node 伺服器共用前端。</p>
+          <ol class="flow tone-creative" role="list" aria-label="資料流程">
+            <li>選擇物件</li><li>讀取清單與規格</li><li>呼叫或嵌入轉換器</li><li>預覽與下載</li>
+          </ol>
+          <div class="related">
+            <span>相關專案</span>
+            <a href="../char-3d-converter/">Char3D Converter <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>轉換器登錄</h3>
+              <p>物件 ID、網址和類型集中在清單。API 型遵守 3d-conv/1 協定，嵌入型以 iframe 保留操作狀態，尚未設定的種類可呈現為未開放。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/3D-conv-house/blob/main/converters.json"><code>converters.json</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/3D-conv-house/blob/main/README.md"><code>README.md</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>表單與預覽</h3>
+              <p>前端依 manifest 決定欄位、圖像尺寸限制和預設值，使用 FormData 上傳，將轉換回傳的模型交給預覽元件。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/3D-conv-house/blob/main/assets/app.js"><code>assets/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/3D-conv-house/blob/main/index.html"><code>index.html</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>兩條請求路徑</h3>
+              <p>Node 模式由 Express 查詢 manifest 並轉送轉換請求。GitHub Pages 讀取靜態清單，API 型改由瀏覽器呼叫已開放 CORS 的轉換器。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/3D-conv-house/blob/main/src/app.js"><code>src/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/3D-conv-house/blob/main/test/hub.test.js"><code>test/hub.test.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-creative">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>跨工具規格測試</h3><p>提供 manifest 驗證器與固定範例素材，新增轉換器時可先確認協定相容性。</p></li>
+            <li><h3>模型體檢</h3><p>下載前提示面數、貼圖尺寸、座標方向與單位，方便對接不同遊戲引擎。</p></li>
+            <li><h3>同圖比較</h3><p>讓同一批素材套用不同參數並排預覽，記下最適合的轉換設定。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

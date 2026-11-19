@@ -1,0 +1,106 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="把漫畫手稿拍進畫冊，提取線稿並輸出成透明素材。">
+  <title>Draft Collective | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/draft-collective/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-creative">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>創作工具</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-04">2026.11.04</time></span>
+      </div>
+      <h1>Draft Collective</h1>
+      <p>把漫畫手稿拍進畫冊，提取線稿並輸出成透明素材。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Draft-Collective/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Draft-Collective">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>快速拍下紙上的草圖，回到畫冊裁切、擦拭、註記或套用素描等效果。線稿與風格處理會另存，使原始照片和可匯出的透明圖都能留存。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>Canvas</dt><dd>處理裁切、橡皮擦、透明線稿和像素濾鏡。</dd></div>
+            <div><dt>JavaScript</dt><dd>管理拍照、手勢、編輯狀態與圖片分享。</dd></div>
+            <div><dt>IndexedDB</dt><dd>在本機保存手稿、線稿、變體與筆記。</dd></div>
+            <div><dt>PWA</dt><dd>離線開啟相簿，支援加入手機主畫面。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>相機或相簿提供影像。本機畫冊保留原圖，編輯流程可建立衍生圖或調整匯出的背景與檔案格式。</p>
+          <ol class="flow tone-creative" role="list" aria-label="資料流程">
+            <li>拍攝手稿</li><li>裁切與編輯</li><li>擷取線稿</li><li>儲存或分享</li>
+          </ol>
+          <div class="related">
+            <span>相關專案</span>
+            <a href="../paper-army/">Paper Army <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>畫冊與操作</h3>
+              <p>主程式處理拍照、相簿、回上一頁和圖片手勢，編輯時由畫布呈現裁切與擦拭結果。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Draft-Collective/blob/main/app.js"><code>app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Draft-Collective/blob/main/index.html"><code>index.html</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>線稿與濾鏡</h3>
+              <p>局部平均亮度用來估算每個像素的線條強度。線稿可輸出透明 PNG，也可用作蠟筆、浮雕或素描效果的輸入。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Draft-Collective/blob/main/filters.js"><code>filters.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>裝置存檔</h3>
+              <p>IndexedDB 保存照片、版本與靈感筆記。Service Worker 支援離線載入外殼，輸出可選擇格式及單色背景。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Draft-Collective/blob/main/db.js"><code>db.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Draft-Collective/blob/main/sw.js"><code>sw.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Draft-Collective/blob/main/app.js"><code>app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-creative">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>漫畫分鏡輸出</h3><p>把數張手稿拖成一頁，保留每格旁的靈感筆記。</p></li>
+            <li><h3>非破壞式編輯紀錄</h3><p>把裁切、筆刷和濾鏡保存成可回放的步驟，便於在原稿上改參數。</p></li>
+            <li><h3>批次掃描</h3><p>用同一套線稿參數處理整疊紙稿的照片，另存為依頁序命名的 ZIP。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="用手掌當比例尺，畫出食物大小並估算份量與營養。">
+  <title>U R Wht U ET | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/u-r-wht-u-et/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-health">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>生活健康</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-11">2026.11.11</time></span>
+      </div>
+      <h1>U R Wht U ET</h1>
+      <p>用手掌當比例尺，畫出食物大小並估算份量與營養。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/U-R-Wht-U-ET/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/U-R-Wht-U-ET">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>先輸入手掌長度，或拍下手掌和硬幣完成校正。搜尋食物後在畫布圈出份量，依形狀調整厚度或直接輸入重量，再將估算的營養加入當日紀錄。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>MediaPipe</dt><dd>用 Hand Landmarker 找手腕與中指指尖。</dd></div>
+            <div><dt>Canvas</dt><dd>讓使用者在已校正的畫布上圈出食物輪廓。</dd></div>
+            <div><dt>JavaScript</dt><dd>載入食物目錄、套用幾何估算並彙整每日紀錄。</dd></div>
+            <div><dt>PWA</dt><dd>支援安裝與離線使用，設定及紀錄留在 localStorage。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>校正模組提供手掌長度。前端把畫布尺度映射到公分，以食物的密度、可食比例與每百克營養資料計算估值。</p>
+          <ol class="flow tone-health" role="list" aria-label="資料流程">
+            <li>校正比例</li><li>選食物並圈形</li><li>換算重量</li><li>計算並記錄營養</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>拍照校正</h3>
+              <p>手部模型在本機找出掌長端點，影像處理估計硬幣位置與尺寸。使用者可以微調標記或手動輸入量測值。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/U-R-Wht-U-ET/blob/main/js/measure.js"><code>js/measure.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>份量換算</h3>
+              <p>依食物資料選用近似橢球、片狀或堆狀的體積計算，再乘密度及可食比例。紀錄頁加總同一天選入的食物。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/U-R-Wht-U-ET/blob/main/js/app.js"><code>js/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/U-R-Wht-U-ET/blob/main/foods/_template.json"><code>foods/_template.json</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>營養資料目錄</h3>
+              <p>單筆食物 JSON 是編輯來源，建置工具檢查資料並輸出分批載入目錄。前端遇到不一致的目錄會改為有限並行載入單檔。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/U-R-Wht-U-ET/blob/main/foods/README.md"><code>foods/README.md</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/U-R-Wht-U-ET/blob/main/tools/build-catalog.mjs"><code>tools/build-catalog.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/U-R-Wht-U-ET/blob/main/js/app.js"><code>js/app.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-health">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>份量範圍</h3><p>讓使用者調整輪廓與厚度的誤差，顯示估算重量與營養的可能區間。</p></li>
+            <li><h3>常吃組合</h3><p>保存一份由多種食物組成的早餐或便當，下次帶入後只調整份量。</p></li>
+            <li><h3>資料來源卡片</h3><p>在結果旁展開原始資料、生熟狀態和缺值，方便比較同類食材。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>
