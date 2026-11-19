@@ -1,0 +1,693 @@
+[
+  {
+    "slug": "repo-guide",
+    "repo": "Repo-Guide-for-Dotdot",
+    "title": "Repo Guide for Dotdot",
+    "created": "2026-11-19",
+    "category": "tools",
+    "summary": "用一個可搜尋的工程索引，串起 Dotdot 的公開作品。",
+    "intro": "這個網站收錄 2026 年 10 月起建立的公開 GitHub 專案。首頁提供依類別與技術關鍵字瀏覽的卡片，詳情頁把用途、資料流、原始碼入口和擴充構想放在一起，方便快速判斷要從哪裡開始讀。",
+    "stack": [
+      ["Node.js", "在建置時讀取專案資料並輸出首頁和每個專案的 HTML。"],
+      ["HTML / CSS", "提供可直接開啟的詳情網址與響應式色塊排版。"],
+      ["JavaScript", "在瀏覽器過濾既有卡片，並把條件同步到網址。"],
+      ["GitHub Actions", "建置靜態檔，交給 GitHub Pages 發布。"]
+    ],
+    "architecture": "一份專案資料驅動首頁與詳情頁。瀏覽器直接讀取建置後的 HTML，只在搜尋與篩選時需要執行 JavaScript。",
+    "flow": ["專案資料", "產生 HTML", "GitHub Pages", "瀏覽與篩選"],
+    "modules": [
+      {"title": "專案資料", "description": "每筆以固定 slug 產生獨立網址。建立日期、技術用途、資料流、原始碼路徑與構想集中維護。", "files": ["data/projects.json"]},
+      {"title": "靜態建置", "description": "檢查 slug、類別與相關專案參照，依建立日期輸出卡片與詳情頁。資產以相對路徑載入，可部署在 repo 子路徑。", "files": ["scripts/build.mjs"]},
+      {"title": "瀏覽與發布", "description": "關鍵字和類別可交叉篩選，網址紀錄目前條件。部署工作流程只上傳建置輸出。", "files": ["public/catalog.js", ".github/workflows/pages.yml"]}
+    ],
+    "ideas": [
+      ["新 repo 待整理清單", "定期比對公開 repo 清單，開出待補架構說明的 PR，讓發布前仍可人工校對。"],
+      ["跨專案技術地圖", "將共用的 IndexedDB、PWA 與影像處理流程做成可點擊的關聯圖。"],
+      ["來源變更提示", "對照記錄的 commit，提醒維護者重新核對已搬移或改寫的模組連結。"]
+    ]
+  },
+  {
+    "slug": "dot-health",
+    "aliases": ["健康小農場"],
+    "repo": "Dot-Health",
+    "title": "Dot Health",
+    "created": "2026-11-17",
+    "category": "health",
+    "demo": true,
+    "summary": "把護眼、活動與休息打卡變成一座養動物的小農場。",
+    "intro": "完成日常健康小行為，讓目前飼養的動物獲得經驗值。動物達到 Lv5 後會搬進農場，下一隻接著孵化。紀錄頁能回看各類行為、每日得分與連續打卡的變化。",
+    "stack": [
+      ["JavaScript", "以 ES Modules 分離活動資料、養成規則與各分頁。"],
+      ["localStorage", "儲存行為、動物與設定，提供 JSON 和 CSV 匯出。"],
+      ["PWA", "用 Service Worker 快取網站，支援離線開啟與加入主畫面。"],
+      ["SVG", "以程式繪出動物外觀及統計圖。"]
+    ],
+    "architecture": "打卡和引導計時都會送進同一套計分流程。畫面由本機狀態重新計算農場、連續天數與圖表。",
+    "flow": ["活動或計時", "紀錄與計分", "動物成長", "農場與統計"],
+    "modules": [
+      {"title": "活動定義與計時", "description": "活動用固定 ID 關聯分類、步驟、時長、每日計分上限與文獻。計時器依步驟推進，完成後由共用動作層提交打卡。", "files": ["js/data/activities.js", "js/timer.js", "js/actions.js"]},
+      {"title": "養成規則", "description": "遊戲層以當地日期計算上限與每日加成，更新目前動物的 XP。畢業後保留動物並孵出下一隻。", "files": ["js/game.js", "js/animals.js"]},
+      {"title": "狀態與視覺化", "description": "版本化存檔保存 logs、animals、設定和目前動物 ID。紀錄頁從行為資料彙整每日分數和活動熱力圖。", "files": ["js/store.js", "js/stats.js", "docs/ARCHITECTURE.md"]}
+    ],
+    "ideas": [
+      ["自訂休息組合", "將數個既有活動排成可重複啟動的短流程，例如工作間隔的護眼加伸展。"],
+      ["農場季節相簿", "把畢業日期、動物外觀和當月打卡總結做成可下載的小卡。"],
+      ["活動來源更新紀錄", "在每個活動顯示文獻更新時間與版本差異，方便回查計分與內容調整。"]
+    ]
+  },
+  {
+    "slug": "art-day-friends",
+    "aliases": ["藝術小日曆"],
+    "repo": "Art-Day-Friends",
+    "title": "Art Day Friends",
+    "created": "2026-11-16",
+    "category": "creative",
+    "demo": true,
+    "summary": "每天畫一張給好友看，把自己的作品留在藝術日曆。",
+    "intro": "用手機上傳手稿或直接在畫板畫圖，也可以記一段文字。好友能看當天的作品並留言。自己的畫累積在本機日曆，雲端分享只保留當日的壓縮副本，留言可隨日曆備份。",
+    "stack": [
+      ["JavaScript", "管理日更動態、日曆、畫板與備份。"],
+      ["IndexedDB", "保存較高畫質的畫作、本機日記和留言快取。"],
+      ["Supabase", "在有設定時提供登入、好友、分享與留言。"],
+      ["Canvas", "即時繪畫，並為同一張圖輸出本機、縮圖與雲端版本。"]
+    ],
+    "architecture": "本機日曆與好友分享各有一份資料。相同前端可選本機示範後端或 Supabase 後端。",
+    "flow": ["畫板或上傳", "縮圖與壓縮", "本機日曆", "同步今日副本"],
+    "modules": [
+      {"title": "畫作處理", "description": "畫板或照片得到同一套影像處理流程。本機版長邊上限 2048 px，雲端副本上限 1280 px，縮圖另行生成。", "files": ["js/sketch.js", "js/imaging.js", "js/app.js"]},
+      {"title": "後端介面", "description": "啟動時依是否具備 Supabase 設定選擇實作。示範模式在目前的瀏覽器模擬帳號和動態，雲端模式走 Supabase Auth、資料表和 Storage。", "files": ["js/backend-local.js", "js/backend-supabase.js"]},
+      {"title": "可見性與歸檔", "description": "Postgres RLS 控制畫作與留言的可見性，過期的畫作副本由清理流程移除。本機歸檔獨立保存畫作、留言快取和匯出資料。", "files": ["supabase/schema.sql", "js/archive.js"]}
+    ],
+    "ideas": [
+      ["每週共畫題目", "好友可一起參加一個主題，各自上傳並保留原有的當日可見期限。"],
+      ["日曆冊輸出", "選一段日期生成可列印的月曆或 PDF，保留畫作和經同意收錄的留言。"],
+      ["離線發布佇列", "斷線時先保存本機，重連後讓使用者預覽並送出仍在當日的待分享作品。"]
+    ]
+  },
+  {
+    "slug": "3d-conv-house",
+    "repo": "3D-conv-house",
+    "title": "3D 轉換屋",
+    "created": "2026-11-16",
+    "category": "creative",
+    "demo": true,
+    "related": ["char-3d-converter"],
+    "summary": "同一個入口操作不同的 2D 轉 3D 工具，預覽並下載 GLB。",
+    "intro": "選擇要製作的物件，依各工具的說明上傳照片、調整參數，再預覽和下載 3D 檔。例如卡片走獨立轉換 API，角色與道具可直接在嵌入的 Char3D Converter 裡操作。",
+    "stack": [
+      ["Node.js / Express", "提供物件清單與轉換 API 轉接。"],
+      ["JavaScript", "依 manifest 動態繪製上傳欄位和參數。"],
+      ["model-viewer", "在瀏覽器顯示可旋轉的 GLB 預覽。"]
+    ],
+    "architecture": "API 型工具透過 manifest 宣告表單與輸出格式，嵌入型工具則各自帶完整介面。靜態部署與 Node 伺服器共用前端。",
+    "flow": ["選擇物件", "讀取清單與規格", "呼叫或嵌入轉換器", "預覽與下載"],
+    "modules": [
+      {"title": "轉換器登錄", "description": "物件 ID、網址和類型集中在清單。API 型遵守 3d-conv/1 協定，嵌入型以 iframe 保留操作狀態，尚未設定的種類可呈現為未開放。", "files": ["converters.json", "README.md"]},
+      {"title": "表單與預覽", "description": "前端依 manifest 決定欄位、圖像尺寸限制和預設值，使用 FormData 上傳，將轉換回傳的模型交給預覽元件。", "files": ["assets/app.js", "index.html"]},
+      {"title": "兩條請求路徑", "description": "Node 模式由 Express 查詢 manifest 並轉送轉換請求。GitHub Pages 讀取靜態清單，API 型改由瀏覽器呼叫已開放 CORS 的轉換器。", "files": ["src/app.js", "test/hub.test.js"]}
+    ],
+    "ideas": [
+      ["跨工具規格測試", "提供 manifest 驗證器與固定範例素材，新增轉換器時可先確認協定相容性。"],
+      ["模型體檢", "下載前提示面數、貼圖尺寸、座標方向與單位，方便對接不同遊戲引擎。"],
+      ["同圖比較", "讓同一批素材套用不同參數並排預覽，記下最適合的轉換設定。"]
+    ]
+  },
+  {
+    "slug": "char-3d-converter",
+    "aliases": ["角色轉換"],
+    "repo": "char-3d-converter-",
+    "title": "Char3D Converter",
+    "created": "2026-11-16",
+    "category": "creative",
+    "demo": true,
+    "related": ["3d-conv-house"],
+    "summary": "上傳手繪的多視圖，把角色或道具做成可匯出的 3D 模型。",
+    "intro": "以頭、身體、手腳與配件為單位上傳正面、側面、背面或頂部圖片。模型可在瀏覽器旋轉、雕刻和調整位置，角色也能試播內建動作，最後輸出 GLB 或含載入器與示範頁的遊戲套件。",
+    "stack": [
+      ["Three.js", "繪製角色、操作控制器與動畫預覽。"],
+      ["Canvas", "裁切、去背、對齊視圖及烘焙貼圖。"],
+      ["Surface Nets", "從距離場擷取網格，再用 meshoptimizer 減面。"],
+      ["IndexedDB", "保存暫存和儲存庫，支援的桌面瀏覽器也可選取資料夾。"]
+    ],
+    "architecture": "轉換在瀏覽器內進行。照片先成為對齊的輪廓與貼圖輸入，建立各部件的網格後再組裝角色。",
+    "flow": ["裁切與對齊", "輪廓生成網格", "貼圖與減面", "組裝並匯出"],
+    "modules": [
+      {"title": "素材編輯", "description": "切出主體後，各視圖可獨立對齊、擦除與變形。以操作記錄保留原圖，讓重做模型時能重播調整。", "files": ["js/crop.js", "js/align.js", "js/imgedit.js"]},
+      {"title": "幾何與貼圖", "description": "依模式建立距離場，由 Surface Nets 取得表面。平滑、雕刻和變形先在高面數網格執行，再烘焙多方向貼圖並套用面數預算。", "files": ["js/converter.js", "js/surfacenets.js", "js/sculpt.js"]},
+      {"title": "串接和保存", "description": "角色層負責部件、骨架節點、配件插槽及動畫。儲存庫和匯出器分開管理可編輯專案檔與遊戲資產。", "files": ["js/character.js", "js/library.js", "js/exporter.js"]}
+    ],
+    "ideas": [
+      ["視圖誤差熱圖", "標示正交投影下的輪廓偏差，協助找出需要重新對齊的局部。"],
+      ["引擎匯出預設", "提供 Godot、Unity 與 Three.js 的座標、面數和貼圖大小預設。"],
+      ["互動重建佇列", "把耗時的幾何重建移到 Worker，允許取消過時的編輯結果。"]
+    ]
+  },
+  {
+    "slug": "climber-walk",
+    "aliases": ["霧林步道"],
+    "repo": "Climber-Walk",
+    "title": "Climber Walk",
+    "created": "2026-11-16",
+    "category": "play",
+    "demo": true,
+    "related": ["creature-collection-guy"],
+    "summary": "走進即時生成的霧林，拍下沿途出沒的太平山生物。",
+    "intro": "在瀏覽器裡散步、撿垃圾或換裝，沿著霧林步道尋找日夜出沒的生物。相機會根據取景、距離與遮擋給予評價，拍到的物種留在遊戲圖鑑。",
+    "stack": [
+      ["WebGPU / WGSL", "手寫渲染管線，處理霧氣、光照、植被和色調映射。"],
+      ["JavaScript", "即時生成地形、植被、動物模型及互動。"],
+      ["IndexedDB", "存圖鑑照片，步行和解鎖進度另存在 localStorage。"],
+      ["Python", "將自然手記的物種事實資料轉為遊戲使用的內嵌資料。"]
+    ],
+    "architecture": "原始碼和著色器集中在同一份 HTML。建置會將它縮成自包含的發布檔，遊戲啟動後由瀏覽器生成場景和模擬生物。",
+    "flow": ["載入場景程式", "生成地形與物種", "WebGPU 繪圖", "拍照更新圖鑑"],
+    "modules": [
+      {"title": "來源與建置", "description": "在 src/game.html 編輯可閱讀的程式。建置腳本產生單檔 index.html，物種腳本只嵌入名稱、分類和觀察統計等事實資料。", "files": ["tools/build.mjs", "tools/gen_species.py"]},
+      {"title": "場景與效能", "description": "地形、步道和植被由程式生成。渲染使用區塊視錐剔除、植被 LOD 與依幀時間調整解析度，並支援 WebGPU 相容路徑。", "files": ["src/game.html", "README.md"]},
+      {"title": "生態與圖鑑", "description": "生物出現機率參考月份、日夜與觀察統計。拍照時檢查取景範圍、大小與遮擋，將最佳照片和評價保存到圖鑑。", "files": ["src/game.html"]}
+    ],
+    "ideas": [
+      ["攝影任務", "以晨霧、暮色或稀有動物為題，讓玩家用不同路線完成一組照片。"],
+      ["觀察日誌", "在遊戲內並排顯示模擬目擊紀錄與來源物種的月份統計。"],
+      ["場景效能面板", "顯示幀時間、解析度、可見區塊和植被級別，方便調整行動裝置的畫質。"]
+    ]
+  },
+  {
+    "slug": "creature-collection-guy",
+    "aliases": ["自然手記"],
+    "repo": "Creature-Collection-Guy-CCG",
+    "title": "Creature Collection Guy",
+    "created": "2026-11-13",
+    "category": "tools",
+    "demo": true,
+    "related": ["climber-walk"],
+    "summary": "拍照記錄動物、植物和風景，搭配太平山生物圖鑑。",
+    "intro": "拍攝正方形照片，補上名稱和備註，整理成個人自然相簿。太平山圖鑑可依月份、類群或名稱探索，從物種頁也能帶入物種名稱開始記錄。照片先存入裝置，附近地名可稍後補上。",
+    "stack": [
+      ["Canvas", "將相機或相簿圖像裁成正方形。"],
+      ["Geolocation", "定位後交給 OpenStreetMap 或選用的 Google Places 查地點。"],
+      ["IndexedDB", "在本機保存照片、備註、地點和待處理狀態。"],
+      ["Python", "彙整物種資料和具授權的照片，產出靜態圖鑑。"]
+    ],
+    "architecture": "相簿和地點查詢分開處理。記錄可以先保存，地名異步回填；物種圖鑑則在發布前整理成 JSON。",
+    "flow": ["拍照與分類", "寫入本機相簿", "背景查詢地名", "瀏覽或修訂"],
+    "modules": [
+      {"title": "相機與相簿", "description": "相機與選檔共用裁切流程。保存時帶入日期、類別、名稱與備註，再以 IndexedDB 讀寫清單和詳細資料。", "files": ["app.js"]},
+      {"title": "附近地名", "description": "預設依距離和地標類型挑出附近的 OpenStreetMap 地點，可設定 Google Places。暫時查不到時保留待查狀態並於重連後重試。", "files": ["places.js", "app.js"]},
+      {"title": "圖鑑資料管線", "description": "建置腳本整理園區、iNaturalist、TaiCOL 等來源。前端依學名、科名、特徵與月份觀察量搜尋或篩選。", "files": ["tools/build_guide.py", "guide.js", "guide/species.json"]}
+    ],
+    "ideas": [
+      ["離線步道包", "先下載選定步道的物種條目與授權縮圖，讓沒有訊號時也能查閱。"],
+      ["模糊定位分享", "輸出觀察卡時可選擇只顯示園區或步道，保留敏感物種位置在本機。"],
+      ["季節觀察回顧", "依照片日期和地點做月度回顧，對照圖鑑的月份分布。"]
+    ]
+  },
+  {
+    "slug": "excerguide",
+    "aliases": ["運動紀錄"],
+    "repo": "Excerguide",
+    "title": "Excerguide",
+    "created": "2026-11-12",
+    "category": "health",
+    "demo": true,
+    "summary": "記下運動時間與備註，一眼看出本週目標進度。",
+    "intro": "選擇健走、跑步、重訓等類別，記下名稱、時長和備註。首頁彙整今日與本週活動時間，也會依運動強度和體重估算熱量，適合用來回顧自己的運動節奏。",
+    "stack": [
+      ["HTML / CSS", "製作黑黃色塊介面、類別入口和進度條。"],
+      ["JavaScript", "管理輸入、估算和日期分組。"],
+      ["localStorage", "在裝置上保存運動紀錄與目標設定。"]
+    ],
+    "architecture": "單頁以原生表單和事件處理新增、編輯及刪除紀錄。每天與每週的統計都由紀錄時間重新計算。",
+    "flow": ["選擇運動", "輸入時間與備註", "估算並保存", "更新週進度"],
+    "modules": [
+      {"title": "介面與類別", "description": "HTML 提供首頁、表單與設定。各類別的 MET 值和小知識放在 app.js 的資料定義，可在選取類別時帶入名稱。", "files": ["index.html", "app.js"]},
+      {"title": "估算和統計", "description": "用 MET、體重和運動時間估算熱量。以本地時間建立每日、每週起點，彙整分鐘數並比對每週目標。", "files": ["app.js"]},
+      {"title": "本機儲存", "description": "紀錄和個人設定以 JSON 寫入 localStorage。共用讀寫函式讓沒有資料的首次使用可套用預設值。", "files": ["app.js"]}
+    ],
+    "ideas": [
+      ["每週訓練對照", "以小圖比較有氧、肌力和伸展的時間比例，以及近四週進度。"],
+      ["快速記一筆", "為常做的運動保留時間和名稱範本，完成後可以一鍵新增紀錄。"],
+      ["資料匯出", "支援 CSV 匯出與檢查重複資料的匯入流程，方便做自訂分析。"]
+    ]
+  },
+  {
+    "slug": "u-r-wht-u-et",
+    "aliases": ["吃什麼像什麼"],
+    "repo": "U-R-Wht-U-ET",
+    "title": "U R Wht U ET",
+    "created": "2026-11-11",
+    "category": "health",
+    "demo": true,
+    "summary": "用手掌當比例尺，畫出食物大小並估算份量與營養。",
+    "intro": "先輸入手掌長度，或拍下手掌和硬幣完成校正。搜尋食物後在畫布圈出份量，依形狀調整厚度或直接輸入重量，再將估算的營養加入當日紀錄。",
+    "stack": [
+      ["MediaPipe", "用 Hand Landmarker 找手腕與中指指尖。"],
+      ["Canvas", "讓使用者在已校正的畫布上圈出食物輪廓。"],
+      ["JavaScript", "載入食物目錄、套用幾何估算並彙整每日紀錄。"],
+      ["PWA", "支援安裝與離線使用，設定及紀錄留在 localStorage。"]
+    ],
+    "architecture": "校正模組提供手掌長度。前端把畫布尺度映射到公分，以食物的密度、可食比例與每百克營養資料計算估值。",
+    "flow": ["校正比例", "選食物並圈形", "換算重量", "計算並記錄營養"],
+    "modules": [
+      {"title": "拍照校正", "description": "手部模型在本機找出掌長端點，影像處理估計硬幣位置與尺寸。使用者可以微調標記或手動輸入量測值。", "files": ["js/measure.js"]},
+      {"title": "份量換算", "description": "依食物資料選用近似橢球、片狀或堆狀的體積計算，再乘密度及可食比例。紀錄頁加總同一天選入的食物。", "files": ["js/app.js", "foods/_template.json"]},
+      {"title": "營養資料目錄", "description": "單筆食物 JSON 是編輯來源，建置工具檢查資料並輸出分批載入目錄。前端遇到不一致的目錄會改為有限並行載入單檔。", "files": ["foods/README.md", "tools/build-catalog.mjs", "js/app.js"]}
+    ],
+    "ideas": [
+      ["份量範圍", "讓使用者調整輪廓與厚度的誤差，顯示估算重量與營養的可能區間。"],
+      ["常吃組合", "保存一份由多種食物組成的早餐或便當，下次帶入後只調整份量。"],
+      ["資料來源卡片", "在結果旁展開原始資料、生熟狀態和缺值，方便比較同類食材。"]
+    ]
+  },
+  {
+    "slug": "quantize-classroom",
+    "aliases": ["量化教室"],
+    "repo": "quatize-classroom",
+    "title": "Quantize Classroom",
+    "created": "2026-11-10",
+    "category": "learn",
+    "summary": "跟著互動 Notebook 親手把語言模型量化成 4-bit GGUF。",
+    "intro": "透過劇情、闖關和程式練習理解 4-bit 量化。學生在 CPU 上將 SmolLM2 轉成 F16 GGUF，再自己實作 Q4_0、比對 llama.cpp 的結果，最後執行模型並量測品質。",
+    "stack": [
+      ["Python / Jupyter", "承載教學任務、檢查器與以 CPU 執行的實作。"],
+      ["GGUF / llama.cpp", "處理模型轉檔、參考量化及推論。"],
+      ["PyTorch", "支援必要的模型操作，並作為推論備案。"],
+      ["HTML / JavaScript", "在 Notebook 內嵌入解剖台、分塊小遊戲等互動。"]
+    ],
+    "architecture": "教材依任務呼叫檢查器與遊戲進度層。模型工具維護下載、GGUF 讀寫與官方工具執行，讓量化實驗和教學介面各自演進。",
+    "flow": ["下載模型", "轉成 F16 GGUF", "實作 Q4_0", "逐位元組比對與推論"],
+    "modules": [
+      {"title": "教材與進度", "description": "Notebook 串接題目、提示和嵌入式介面。任務通過後發放 XP、徽章，進度保存到 quest_save.json。", "files": ["quantize_classroom.ipynb", "quest/checks.py", "quest/game.py"]},
+      {"title": "量化與模型格式", "description": "參考實作負責分塊縮放與 4-bit 打包，GGUF 工具處理張量與中繼資料。教材將手工結果與 llama-quantize 的 Q4_0 張量逐位元組比較。", "files": ["quest/q4.py", "quest/ggufkit.py"]},
+      {"title": "工具與完整測試", "description": "工具箱處理模型和 llama.cpp 下載，並提供本機備用路徑。整本 Notebook 的測試會填入參考解答後逐格執行。", "files": ["quest/toolbox.py", "tests/run_notebook.py"]}
+    ],
+    "ideas": [
+      ["量化比較關卡", "以同一個小模型對照 Q4_0 與 Q8_0 的體積、輸出品質及推論耗時。"],
+      ["誤差視覺化", "把量化前後的張量差異畫成熱圖，可切換區塊或標記離群權重。"],
+      ["教師離線包", "產出可核對雜湊的課程快取與班級用測試報表，方便網路受限的教室。"]
+    ]
+  },
+  {
+    "slug": "paper-army",
+    "aliases": ["紙上談兵"],
+    "repo": "Paper-Army",
+    "title": "Paper Army",
+    "created": "2026-11-09",
+    "category": "play",
+    "demo": true,
+    "related": ["draft-collective"],
+    "summary": "把手繪線條變成遊戲地形，觀察單位如何通過關卡。",
+    "intro": "在紙上畫線拍照，或用手指直接畫出關卡。調整裁切與偵測閾值後，從輪廓辨識出坡面、平台和機關，讓單位在手繪地形上自動對戰。支援單人關卡、同機與連線雙人遊玩。",
+    "stack": [
+      ["Canvas", "擷取與處理圖像，繪製紙張、地形和動畫。"],
+      ["JavaScript", "以固定時間步長推進遊戲模擬。"],
+      ["PeerJS / WebRTC", "媒合雙人房間並傳輸地形和模擬快照。"]
+    ],
+    "architecture": "影像處理先把草圖轉成網格與機關。模擬使用相同的地形和單位資料。在連線模式，由房主執行模擬並將快照傳給另一端。",
+    "flow": ["佈陣與畫線", "偵測線條與形狀", "固定步長模擬", "繪製與同步"],
+    "modules": [
+      {"title": "從草圖到地形", "description": "沿用 Draft Collective 的局部亮度差偵測，將線條縮成網格。由外部填充判斷實心區，再以輪廓分析標記積水、圓滑面與其他機關。", "files": ["js/terrain.js"]},
+      {"title": "模擬與關卡", "description": "模擬器更新移動、地形效果和結果。關卡資料定義敵方配置、可用地形和任務，教學文字由獨立模組提供。", "files": ["js/sim.js", "js/levels.js", "js/solo-tutorial.js"]},
+      {"title": "雙人同步", "description": "兩人透過相同房間碼配對，各自提交地形與配置。房主合併地形並跑模擬，客端接收快照供繪圖。", "files": ["js/net.js", "js/app.js", "js/render.js"]}
+    ],
+    "ideas": [
+      ["手繪關卡交換", "把地形和關卡條件輸出成小檔，讓朋友匯入挑戰。"],
+      ["對戰回放", "保存初始地形與模擬快照，在時間軸上回看轉折。"],
+      ["辨識調試圖層", "切換原圖、二值線條、填區與機關標記，讓使用者知道要改哪一筆。"]
+    ]
+  },
+  {
+    "slug": "leet-castle",
+    "aliases": ["程式城堡"],
+    "repo": "Leet-Castle",
+    "title": "Leet Castle",
+    "created": "2026-11-09",
+    "category": "learn",
+    "summary": "在瀏覽器解 JavaScript 或 Python 題，帶角色一路闖過程式城堡。",
+    "intro": "故事關卡從函式、迴圈教到動態規劃與堆積，另有每日和難度挑戰。提交程式後會執行測資，再量測成長趨勢，將表現轉成角色的獎勵和成就。",
+    "stack": [
+      ["Web Workers", "將判題與量測放在工作執行緒，逾時可中止。"],
+      ["Pyodide", "以 WebAssembly 在瀏覽器執行 Python。"],
+      ["Acorn / Python ast", "分析及插樁提交的程式，量測運算與容器用量。"],
+      ["CodeMirror", "提供瀏覽器內的程式編輯器。"]
+    ],
+    "architecture": "題庫定義函式簽名、測資、參考解答與量測條件。前端選擇對應的 Worker 執行，通過後用逐步放大的輸入估計時間和空間成長。",
+    "flow": ["選題並編輯", "Worker 執行測資", "擬合成長曲線", "評價與獎勵"],
+    "modules": [
+      {"title": "題庫與教學", "description": "題目資料提供雙語參考解答、範例、測資產生器及比較規則。故事定義路線和課程，共用模型處理鏈結串列與樹。", "files": ["js/data/problems.js", "js/data/story.js", "js/shared.js"]},
+      {"title": "判題與量測", "description": "執行器把提交送到對應語言的 Worker。通過後統計操作與暫存容量的變量，用多個輸入規模擬合近似複雜度。", "files": ["js/engine/runner.js", "js/engine/complexity.js", "js/engine/py-worker.js"]},
+      {"title": "遊戲狀態", "description": "以得分更新金幣、寶箱、角色服裝與成就。存檔留在 localStorage，能以存檔碼匯出或還原。", "files": ["js/game.js", "js/ui/play.js", "selftest.html"]}
+    ],
+    "ideas": [
+      ["同題雙解比較", "保留兩次通過的提交，疊畫輸入大小與操作次數曲線。"],
+      ["可攜題組", "讓老師匯入受版本控制的題目清單與測資，建立特定主題的城堡樓層。"],
+      ["複習支線", "依先前失敗的觀念挑出短練習，幾天後重訪同一類問題。"]
+    ]
+  },
+  {
+    "slug": "walking-dungeon",
+    "aliases": ["步行地牢"],
+    "repo": "Walking-Dungeon",
+    "title": "Walking Dungeon",
+    "created": "2026-11-09",
+    "category": "play",
+    "demo": true,
+    "summary": "把真實步行距離換成地牢步數，探索並招募生物。",
+    "intro": "走路取得可在地牢使用的步數。每次離開後會生成新地牢，可找寶箱、採水果或餵食生物，讓牠們跟著探索。也能回小窩佈置家具或調整隊伍。",
+    "stack": [
+      ["Geolocation / DeviceMotion", "從定位或動作感測取得步行進度。"],
+      ["Web Bluetooth", "在支援的瀏覽器讀取 FTMS 和 RSC 裝置距離。"],
+      ["JavaScript", "實作地牢生成、步數消耗、物品及生物互動。"],
+      ["PWA", "快取遊戲外殼，進度保存於 localStorage。"]
+    ],
+    "architecture": "走路追蹤器將不同感測來源換算成可消耗步數。遊戲規則與 DOM 分離，地牢、隊伍與小窩從相同狀態更新。",
+    "flow": ["定位或其他計步", "換算與對帳", "消耗步數探索", "存入遊戲進度"],
+    "modules": [
+      {"title": "計步與退回流程", "description": "自動模式先嘗試 GPS，再改用動作感測。另可選藍牙或輸入今日步行總量，手動同步只補未計入的差額。", "files": ["js/tracker.js", "tests/tracker.test.mjs"]},
+      {"title": "地牢規則", "description": "地牢生成器讓地塊可互通，移動和互動由規則層分別判定。生物食物偏好和能力與玩法邏輯分開定義。", "files": ["js/logic.js", "js/data.js", "tests/logic.test.mjs"]},
+      {"title": "畫面與存檔", "description": "主程式綁定觸控、鍵盤和面板操作，再把狀態交給圖像層。版本化本機存檔提供匯出和匯入。", "files": ["js/main.js", "js/store.js", "js/sprites.js"]}
+    ],
+    "ideas": [
+      ["每日相同地牢", "用日期當種子，讓朋友各自探索同一個關卡並分享通關路線。"],
+      ["計步來源時間線", "把 GPS、藍牙與手動同步的貢獻分開標出，便於核對補算。"],
+      ["小窩明信片", "把家具配置與目前生物隊伍輸出成可分享的圖卡。"]
+    ]
+  },
+  {
+    "slug": "book-review-library",
+    "aliases": ["閱讀心得圖書館"],
+    "repo": "Book-Review-Library",
+    "title": "Book Review Library",
+    "created": "2026-11-08",
+    "category": "learn",
+    "demo": true,
+    "summary": "替書籍整理封面、劃線段落與心得，帶著自己的書架走。",
+    "intro": "用不同書架管理閱讀筆記，在每本書中放入心得和多張照片。可跨書架搜尋書名、作者和心得，匯出含照片的 JSON 備份。",
+    "stack": [
+      ["IndexedDB", "以獨立儲存區保存書架、書籍、照片和中繼資料。"],
+      ["Canvas", "壓縮匯入照片，減少裝置上的儲存用量。"],
+      ["PWA", "以 Service Worker 提供離線開啟及主畫面安裝。"]
+    ],
+    "architecture": "書籍文字與照片位元組分開保存。文字可自動儲存，照片新增或刪除和書籍索引更新由同一筆交易完成。",
+    "flow": ["選書架與書籍", "記錄心得或選圖", "寫入本機資料庫", "搜尋或匯出"],
+    "modules": [
+      {"title": "本機資料模型", "description": "資料庫將 shelves、books 和 photos 分開。照片的 ArrayBuffer 有獨立記錄，寫入時一起調整書籍的照片 ID 清單。", "files": ["js/db.js"]},
+      {"title": "照片壽命", "description": "選檔時立即讀入內容再壓縮，避免依賴 iOS 的短期檔案。顯示時才建立 blob 網址，離開視圖後釋放。", "files": ["js/image.js", "js/app.js"]},
+      {"title": "瀏覽與離線", "description": "應用層處理書架路由、全域搜尋、內嵌照片檢視及備份。Service Worker 快取網站殼，離線時仍可開啟本機筆記。", "files": ["js/app.js", "sw.js"]}
+    ],
+    "ideas": [
+      ["段落卡片", "把選定照片和讀後心得組成帶書名、頁碼的可列印摘錄。"],
+      ["閱讀回顧", "依標籤與時間隨機抽出舊心得，做成個人複習清單。"],
+      ["Markdown 匯出", "以書架和書籍建立資料夾，照片獨立輸出供其他筆記工具讀取。"]
+    ]
+  },
+  {
+    "slug": "my-pokemon-collection",
+    "aliases": ["寶可夢收藏庫"],
+    "repo": "My-Pokemon-Collection",
+    "title": "My Pokémon Collection",
+    "created": "2026-11-08",
+    "category": "tools",
+    "demo": true,
+    "related": ["cardking"],
+    "summary": "依圖鑑編號和地區型態，整理周邊、卡片及畫作收藏。",
+    "intro": "個人收藏庫依寶可夢的世代、編號和地區型態歸類。拍下實體卡可做透視校正，公仔或色違照片則能製成可翻面、會隨手勢反光的自製卡片。",
+    "stack": [
+      ["PokéAPI", "提供圖鑑資料的來源與可載入的圖像。"],
+      ["Canvas", "壓縮照片，並用四點對應校正實體卡的透視。"],
+      ["CSS 3D / DeviceOrientation", "處理翻面、卡片傾斜和反光動畫。"],
+      ["IndexedDB", "本機保存收藏文字與照片，支援 ZIP 備份。"]
+    ],
+    "architecture": "靜態圖鑑與使用者收藏分開管理。前端以編號和型態關聯兩者；實體卡和自製卡各有處理流程，最後使用同一套卡片檢視。",
+    "flow": ["選圖鑑與型態", "拍攝並校正", "保存收藏與照片", "瀏覽立體卡"],
+    "modules": [
+      {"title": "圖鑑與索引", "description": "基礎圖鑑包含多語名稱、世代與屬性，地區型態另有定義。收藏依編號與型態篩選，也能用文字和類別交叉搜尋。", "files": ["js/dex.js", "js/forms.js", "js/app.js"]},
+      {"title": "影像與卡片", "description": "實體卡使用四角對應做透視校正。自製卡有獨立編輯介面，兩種卡的檢視都支援拖曳、翻面和可選的裝置方向。", "files": ["js/capture.js", "js/align.js", "js/madecard.js", "js/card3d.js"]},
+      {"title": "照片與備份", "description": "收藏文字與照片位元組分開存放。備份檔含 collection.json 和可獨立讀取的照片，匯入可在其他裝置還原。", "files": ["js/db.js", "js/backup.js"]}
+    ],
+    "ideas": [
+      ["收藏牆版面", "挑選幾件收藏排成桌布或列印頁，讓相片和心得有多種排列。"],
+      ["匯入前比對", "預覽新增、重複和有衝突的項目，再決定如何合併。"],
+      ["離線巡覽", "可預先快取選定世代的圖鑑縮圖，外出整理時仍能辨識條目。"]
+    ]
+  },
+  {
+    "slug": "char-insp",
+    "aliases": ["角色靈感庫"],
+    "repo": "Char-Insp",
+    "title": "Char Insp",
+    "created": "2026-11-07",
+    "category": "creative",
+    "demo": true,
+    "summary": "把角色設定、對話和多組圖片收進可匯出的角色靈感庫。",
+    "intro": "每個角色有固定欄位，包括中英文名、描述、對話、圖示、頭像和角色圖。透過拖放或拍照收集素材，修改自動保存，最後可分開匯出結構化文字與圖片。",
+    "stack": [
+      ["JavaScript", "負責角色編輯、拖放、多圖排序與匯出。"],
+      ["IndexedDB", "獨立保存角色文字和圖片內容。"],
+      ["JSON / CSV / ZIP", "提供適合遊戲資料管線的輸出，以及完整備份。"]
+    ],
+    "architecture": "編輯頁針對固定的角色欄位操作本機資料。供遊戲使用的文字與圖片輸出，以及可還原的完整備份走不同流程。",
+    "flow": ["建立角色", "填欄位與圖像", "本機自動儲存", "匯出或完整備份"],
+    "modules": [
+      {"title": "角色編輯", "description": "各類圖片可以多選、排序或放大瀏覽，對話用可增刪的列表。文字自動儲存時可獨立更新角色紀錄。", "files": ["js/app.js", "js/db.js"]},
+      {"title": "遊戲資料輸出", "description": "文字可轉成 JSON 或適合試算表的 CSV，圖片依角色及用途分目錄壓縮。可選擇單一角色或全部。", "files": ["js/export.js", "js/zip.js"]},
+      {"title": "完整備份與還原", "description": "備份記錄原始 ID、文字、圖片與順序。匯入可合併或全量還原，先寫入備份內容，再於全量模式移除多餘舊資料。", "files": ["js/backup.js", "js/db.js"]}
+    ],
+    "ideas": [
+      ["角色模板版本", "保留固定欄位作預設，針對不同遊戲增加可選欄位並用版本遷移。"],
+      ["對話預覽", "用名字和頭像把多角色的對話排成簡單視覺小說畫面。"],
+      ["資產對接", "讓匯出的角色 ID 對應 Char3D 的模型檔，建立給遊戲載入的角色清單。"]
+    ]
+  },
+  {
+    "slug": "blood-pressure",
+    "aliases": ["血壓日記"],
+    "repo": "Blood-Pressure",
+    "title": "Blood Pressure Diary",
+    "created": "2026-11-07",
+    "category": "health",
+    "demo": true,
+    "summary": "從血壓計拍照帶入讀數，在日曆和趨勢圖回顧早晚紀錄。",
+    "intro": "記錄量測時間、收縮壓、舒張壓與脈搏。支援手動輸入或照片辨識，確認後保存到當日日曆。趨勢圖可切換指標、早晚、期間及每日取值方式。",
+    "stack": [
+      ["Canvas / OCR", "以灰階二值化與候選框分析讀取七段顯示器。"],
+      ["int8 模型", "用 JavaScript 在裝置上辨識候選數字。"],
+      ["SVG", "繪製趨勢圖、參考線和觸控準線。"],
+      ["PWA / localStorage", "離線開啟頁面，紀錄與設定保存於瀏覽器。"]
+    ],
+    "architecture": "相機和手動輸入共用確認表單。正式紀錄寫入本機後，日曆和趨勢圖依時間重整資料。",
+    "flow": ["拍照或手動輸入", "確認時間和數字", "本機保存", "彙整日曆與趨勢"],
+    "modules": [
+      {"title": "影像辨識", "description": "以 Sauvola 二值化處理光線差異，從連通元件找出數字候選。量化模型分類後，依位置與大小排列成血壓和脈搏三列。", "files": ["js/ocr.js", "js/digit-model.js", "tools/train.py"]},
+      {"title": "拍照與確認", "description": "相機在對準範圍內重複辨識，結果穩定時才帶入表單。使用者可更正讀數、選擇時刻再保存。", "files": ["js/camera.js", "js/app.js", "js/wheel.js"]},
+      {"title": "日期、匯入與圖表", "description": "本機資料層整理早晚時段並在匯入時去除重複。圖表依期間及日彙整規則產生折線和明細表。", "files": ["js/store.js", "js/chart.js"]}
+    ],
+    "ideas": [
+      ["讀數確認框", "辨識時將三行候選數字疊在照片上，標示低信心的欄位讓使用者修正。"],
+      ["可列印紀錄", "輸出選定期間的早晚讀數、日期與註記，方便帶去看診時查閱。"],
+      ["量測情境標籤", "加上使用者自選的時段與情境標籤，回顧時可篩選相近條件。"]
+    ]
+  },
+  {
+    "slug": "music-insp",
+    "repo": "Music-Insp",
+    "title": "Music Insp",
+    "created": "2026-11-06",
+    "category": "creative",
+    "demo": true,
+    "summary": "把錄音、歌詞與檔案收成歌曲資料夾，再打包交給 DAW。",
+    "intro": "一首歌一個資料夾。可立即錄下旋律、記和弦或直接拖進音檔和文件。每個片段都能重新命名、試聽與下載，整首歌也可以連同文字和轉成 WAV 的錄音一起打包。",
+    "stack": [
+      ["MediaRecorder", "使用瀏覽器麥克風即時錄製靈感片段。"],
+      ["Web Audio", "解碼瀏覽器錄音，供 WAV 匯出使用。"],
+      ["IndexedDB", "儲存歌曲資料夾、文字和檔案內容。"],
+      ["JSZip", "按檔名打包片段及文字成歌曲 ZIP。"]
+    ],
+    "architecture": "錄音、文字和上傳檔都以片段形式歸入歌曲。選擇匯出時再讀取內容，依需求轉碼後組成 ZIP。",
+    "flow": ["建立歌曲", "錄音、文字或上傳", "保存片段", "預覽或打包"],
+    "modules": [
+      {"title": "輸入公用模型", "description": "錄音產生音訊 Blob，上傳保留檔案內容，文字即時保存。同個資料夾可混合不同類型的片段。", "files": ["app.js", "index.html"]},
+      {"title": "本機資料與瀏覽", "description": "IndexedDB 分開保存資料夾與片段，讀取時可轉成臨時網址供媒體預覽。舊資料夾的備註會轉成文字片段。", "files": ["app.js", "README.md"]},
+      {"title": "音訊與打包", "description": "匯出可透過 Web Audio 將錄音解碼後寫成 WAV。JSZip 將文字、錄音及上傳檔以可辨識的名稱打包。", "files": ["app.js"]}
+    ],
+    "ideas": [
+      ["歌曲時間軸", "手動排列幾段錄音，邊播放邊標註主歌、副歌或待重錄片段。"],
+      ["錄音波形書籤", "在波形上標出想保留的時間點，匯出以秒數標記的筆記。"],
+      ["歌曲資料還原", "為 ZIP 加上片段型別與順序清單，讓備份可重新匯入並接著編輯。"]
+    ]
+  },
+  {
+    "slug": "tasking",
+    "aliases": ["任務清單"],
+    "repo": "TASKING",
+    "title": "TASKING",
+    "created": "2026-11-06",
+    "category": "tools",
+    "demo": true,
+    "related": ["cardking"],
+    "summary": "將任務分資料夾整理，每完成一項就領一包收藏卡。",
+    "intro": "將長期、每週或每日事項拆成勾選框、筆記與能量條。可拖曳排序、複製及封存資料夾，每日任務會按本地時間重置。完成任務可獲得卡包並建立自己的收藏。",
+    "stack": [
+      ["JavaScript", "管理任務狀態、拖曳、滑動和開包視圖。"],
+      ["localStorage", "儲存資料夾、每日任務及獎勵紀錄。"],
+      ["Fetch API", "從卡牌服務載入並快取卡池。"],
+      ["SVG / Web Audio", "即時繪製手寫介面、卡包動畫與音效。"]
+    ],
+    "architecture": "任務、卡包與收藏使用單一版本化存檔。任務狀態變動先交給獎勵規則，卡牌資料則由獨立模組更新。",
+    "flow": ["建立或排序任務", "完成並驗證資格", "發放卡包", "開包加入收藏"],
+    "modules": [
+      {"title": "任務與手勢", "description": "主畫面和資料夾視圖處理三種項目、封存及編輯。長按與滑動各有模組，將操作送回主程式。", "files": ["js/main.js", "js/sortable.js", "js/swipe.js"]},
+      {"title": "重置與獎勵去重", "description": "每日清單跨過本地早上八點重置。同一天重做每日任務不重複獎勵，複製資料夾也會保留原任務的獎勵關聯。", "files": ["js/store.js", "js/main.js"]},
+      {"title": "卡牌服務與開包", "description": "卡池可在背景讀取，暫無符合系列的卡時保留未開卡包。開包動畫和卡片視覺沿用 CardKing 的做法。", "files": ["js/data.js", "js/opening.js", "js/crayon.js"]}
+    ],
+    "ideas": [
+      ["任務節奏日曆", "用熱力圖看不同資料夾的完成頻率，點日期可回顧實際完成項目。"],
+      ["共享清單模板", "將資料夾匯出成沒有個人備註和獎勵狀態的模板，匯入後再開始。"],
+      ["里程碑卡包", "為多階段清單設計達標獎勵，讓完成一整組任務也有獨立成就。"]
+    ]
+  },
+  {
+    "slug": "font-anytime",
+    "repo": "Font-Upreate-your-own-font-anytime-with-your-pen-and-camera.",
+    "title": "Font Anytime",
+    "created": "2026-11-06",
+    "category": "creative",
+    "demo": true,
+    "summary": "拍下手寫 A–Z，將辨識後的字母做成可安裝的字型。",
+    "intro": "用筆在紙上寫字母後拍照，瀏覽器會切割並辨識每個字。使用者可確認低信心結果或挑選重複字，預覽自己的手寫風格，補齊 A–Z 後下載 OpenType 字型。",
+    "stack": [
+      ["Canvas", "處理圖像、二值化和連通區域切割。"],
+      ["int8 CNN", "以瀏覽器內的 JavaScript 推論辨識 EMNIST 字母。"],
+      ["opentype.js", "由向量字形組裝 CFF OpenType。"],
+      ["IndexedDB", "保存字型資料夾及確認後的字母。"]
+    ],
+    "architecture": "照片先切出候選字形，再用量化模型分類。人工確認後存入字庫，完整字庫可轉為可安裝字型。",
+    "flow": ["拍照或選圖", "切割並辨識字母", "確認字形", "向量化並下載 OTF"],
+    "modules": [
+      {"title": "影像切割", "description": "自適應二值化後用 8 連通元件找出筆畫，合併同字母的片段並依閱讀順序排列。", "files": ["js/segment.js"]},
+      {"title": "辨識與校稿", "description": "模型在本機對候選圖給出機率，前端讓使用者確認不確定的字母或挑選重複字。EMNIST 訓練與模型權重可分開檢視。", "files": ["js/recognizer.js", "js/app.js", "tools/train-letters/train.py"]},
+      {"title": "字形向量化", "description": "沿像素輪廓描邊並簡化頂點，再以二次曲線平滑。OpenType 輸出將大小寫對應到已收集的手寫大寫字形。", "files": ["js/font.js", "js/storage.js"]}
+    ],
+    "ideas": [
+      ["字高與基線校正", "提供參考線與逐字覆寫，讓手寫字的上下位置和留白更一致。"],
+      ["多樣本字形", "每個字母保留多種寫法，匯出成可切換的 OpenType 替代字形。"],
+      ["標點與數字練習紙", "提供新的採樣模板與校稿格，把 0–9 和常用標點加入字庫。"]
+    ]
+  },
+  {
+    "slug": "cardking",
+    "aliases": ["卡牌王"],
+    "repo": "CardKing",
+    "title": "CardKing",
+    "created": "2026-11-04",
+    "category": "play",
+    "demo": true,
+    "related": ["tasking", "my-pokemon-collection"],
+    "summary": "抽卡、撕包、翻牌，依系列收集不同稀有度與卡面型態。",
+    "intro": "在手機瀏覽器收集卡牌。卡包依系列分組，開包有撕包、逐張翻牌和稀有提示。店內可查機率表，重複卡會換成金幣，也能在圖鑑看自己解鎖了哪些卡。",
+    "stack": [
+      ["JavaScript", "實作分系列抽卡、稀有度權重與機率表。"],
+      ["Fetch / localStorage", "讀取遠端卡池並快取，收藏與金幣保存在裝置。"],
+      ["SVG / Web Audio", "繪製手繪卡框、開包效果並合成音效。"]
+    ],
+    "architecture": "卡池來自外部服務，遊戲直接在瀏覽器算抽卡與收藏規則。資料和機率規則集中，呈現層負責動畫與卡片檢視。",
+    "flow": ["載入及快取卡池", "依權重抽牌", "開包動畫", "更新收藏與圖鑑"],
+    "modules": [
+      {"title": "卡池與機率", "description": "卡池按 set 分組。先依權重抽出稀有度，再從該稀有度抽卡，另決定卡面型態。機率表從同一套規則計算。", "files": ["js/data.js"]},
+      {"title": "遊戲經濟", "description": "紀錄金幣、卡包與收藏。重複卡轉換金幣，圖鑑達成階段目標時會補發該系列卡包。", "files": ["js/data.js", "js/main.js"]},
+      {"title": "開包表現", "description": "開包流程管理動畫、翻牌順序和略過操作，蠟筆線條、粒子和音效由不同模組即時產生。", "files": ["js/opening.js", "js/crayon.js", "js/sfx.js"]}
+    ],
+    "ideas": [
+      ["機率模擬器", "比較理論分布和可重現的大量抽樣，調整權重時也能檢查機率表。"],
+      ["系列收藏冊", "按主題或卡面型態自由排版，挑出代表卡製作可分享的圖卡。"],
+      ["自訂離線卡池", "匯入一組合法授權的本地卡圖和卡池 JSON，讓個人系列也能在離線時測試。"]
+    ]
+  },
+  {
+    "slug": "insp-camera",
+    "aliases": ["靈感相機"],
+    "repo": "Insp-Camera",
+    "title": "Insp Camera",
+    "created": "2026-11-04",
+    "category": "creative",
+    "demo": true,
+    "summary": "按下快門後直接分資料夾，回看靈感照片與筆記。",
+    "intro": "專為快速收集視覺靈感設計。拍照後點取景框周圍的分類即可收存，也能從檔案匯入。相簿支援調整照片、加筆記、移動分類、分享或批次匯出。",
+    "stack": [
+      ["MediaDevices / Canvas", "處理即時取景、選檔和照片裁切旋轉。"],
+      ["IndexedDB", "在瀏覽器保存照片、分類、筆記與設定。"],
+      ["Web Share / ZIP", "提供系統分享、單圖下載與按資料夾打包。"],
+      ["PWA", "以 Service Worker 快取 App 自己的檔案。"]
+    ],
+    "architecture": "相機與匯入是同一個影像管線的入口。轉成適合保存的照片後，使用者決定分類，收藏頁從本機資料讀取與編輯。",
+    "flow": ["取景或匯入", "壓縮照片", "選資料夾保存", "編輯或分享"],
+    "modules": [
+      {"title": "擷取與圖片處理", "description": "相機有鏡頭切換和原生拍照退回流程。匯入限制檔案大小和像素數，重新編碼為 JPEG 並移除原始 EXIF。", "files": ["dist/app.js", "dist/index.html"]},
+      {"title": "分類與本機狀態", "description": "照片與設定存入依站點路徑命名的 IndexedDB。主程式處理相簿格狀檢視、筆記自動保存與編輯後復原。", "files": ["dist/app.js", "README.md"]},
+      {"title": "離線與發布", "description": "Service Worker 以網路優先策略快取外殼。部署只發布 dist 內的檔案，選取的照片和筆記由瀏覽器保留。", "files": ["dist/sw.js", ".github/workflows/pages.yml"]}
+    ],
+    "ideas": [
+      ["靈感並排板", "跨資料夾選照片做成 Mood Board，附上手寫重點後輸出。"],
+      ["色彩探索", "在本機提取每張照片的主色，依色票搜尋相近素材。"],
+      ["可往返的匯出檔", "在 ZIP 內保留分類、筆記與非破壞式裁切參數，支援重新匯入。"]
+    ]
+  },
+  {
+    "slug": "water-town",
+    "aliases": ["喝水小鎮"],
+    "repo": "Water-Town",
+    "title": "Water Town",
+    "created": "2026-11-04",
+    "category": "health",
+    "demo": true,
+    "summary": "每次記錄喝水，都能讓一座 3D 小鎮長出新景色。",
+    "intro": "設定水壺容量後記錄每日飲水，累積的水量讓小島擴張、植物生長和水源幣增加。可編輯小鎮布局、看飲水日記以及拍一張立體城市明信片。",
+    "stack": [
+      ["Three.js", "即時渲染島嶼、植物、建築與畫面截圖。"],
+      ["JavaScript", "將成長、解鎖與擺放規則獨立於介面。"],
+      ["PWA / localStorage", "在裝置保存日記與小鎮，離線也可使用。"],
+      ["Node.js", "以內建測試執行器驗證遊戲規則。"]
+    ],
+    "architecture": "喝水事件先進到規則層，換算水量與遊戲狀態，再由介面及 Three.js 同步呈現。遊戲狀態可用純 JavaScript 測試。",
+    "flow": ["選水壺和飲量", "計算水量及成長", "保存日記和地圖", "更新 3D 場景"],
+    "modules": [
+      {"title": "成長與地形規則", "description": "規則層處理有效水量、土地解鎖、植物棲地與每日成長。植物、建築和水壺資料集中在獨立模組。", "files": ["js/game.js", "js/data.js", "tests/game.test.mjs"]},
+      {"title": "3D 與手勢", "description": "模型以程式生成，場景管理觸控旋轉、縮放、格子擺放與截圖。介面將玩家操作轉成規則層的動作。", "files": ["js/models.js", "js/scene.js", "js/app.js"]},
+      {"title": "載入和離線", "description": "先呈現載入畫面再啟動 3D 場景，Service Worker 準備離線需要的靜態檔。日記與小鎮都能從本機存檔恢復。", "files": ["js/main.js", "js/game.js", "sw.js"]}
+    ],
+    "ideas": [
+      ["小鎮成長縮時", "每日保存輕量布局快照，自動回放地形解鎖與新建物。"],
+      ["島嶼生態導覽", "點選植物時標亮適合生長的格子，解釋和水邊、沙地或建物的關係。"],
+      ["相片模式", "在不改變遊戲進度的情況下切換時間、天氣與裁切比例來拍攝小鎮。"]
+    ]
+  },
+  {
+    "slug": "draft-collective",
+    "repo": "Draft-Collective",
+    "title": "Draft Collective",
+    "created": "2026-11-04",
+    "category": "creative",
+    "demo": true,
+    "related": ["paper-army"],
+    "summary": "把漫畫手稿拍進畫冊，提取線稿並輸出成透明素材。",
+    "intro": "快速拍下紙上的草圖，回到畫冊裁切、擦拭、註記或套用素描等效果。線稿與風格處理會另存，使原始照片和可匯出的透明圖都能留存。",
+    "stack": [
+      ["Canvas", "處理裁切、橡皮擦、透明線稿和像素濾鏡。"],
+      ["JavaScript", "管理拍照、手勢、編輯狀態與圖片分享。"],
+      ["IndexedDB", "在本機保存手稿、線稿、變體與筆記。"],
+      ["PWA", "離線開啟相簿，支援加入手機主畫面。"]
+    ],
+    "architecture": "相機或相簿提供影像。本機畫冊保留原圖，編輯流程可建立衍生圖或調整匯出的背景與檔案格式。",
+    "flow": ["拍攝手稿", "裁切與編輯", "擷取線稿", "儲存或分享"],
+    "modules": [
+      {"title": "畫冊與操作", "description": "主程式處理拍照、相簿、回上一頁和圖片手勢，編輯時由畫布呈現裁切與擦拭結果。", "files": ["app.js", "index.html"]},
+      {"title": "線稿與濾鏡", "description": "局部平均亮度用來估算每個像素的線條強度。線稿可輸出透明 PNG，也可用作蠟筆、浮雕或素描效果的輸入。", "files": ["filters.js"]},
+      {"title": "裝置存檔", "description": "IndexedDB 保存照片、版本與靈感筆記。Service Worker 支援離線載入外殼，輸出可選擇格式及單色背景。", "files": ["db.js", "sw.js", "app.js"]}
+    ],
+    "ideas": [
+      ["漫畫分鏡輸出", "把數張手稿拖成一頁，保留每格旁的靈感筆記。"],
+      ["非破壞式編輯紀錄", "把裁切、筆刷和濾鏡保存成可回放的步驟，便於在原稿上改參數。"],
+      ["批次掃描", "用同一套線稿參數處理整疊紙稿的照片，另存為依頁序命名的 ZIP。"]
+    ]
+  }
+]
