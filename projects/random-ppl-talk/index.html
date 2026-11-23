@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="扮演酒保，和隨機客人閒聊並猜出他的職業。">
+  <title>Random Ppl Talk | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/random-ppl-talk/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-play">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>遊戲</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-20">2026.11.20</time></span>
+      </div>
+      <h1>Random Ppl Talk</h1>
+      <p>扮演酒保，和隨機客人閒聊並猜出他的職業。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Random-Ppl-Talk/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Random-Ppl-Talk">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>每一關會有一位隨機組成的虛構客人坐到吧台前，你要在限定的訊息次數內，從閒聊的線索猜出對方的職業。客人由瀏覽器內的小型語言模型扮演，不會直接說出職稱，也不能直接問職業。通過的關卡越多，可用的訊息次數越少。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>WebLLM / WebGPU</dt><dd>在瀏覽器執行 Qwen2.5 小模型，扮演客人並協助判定猜測。</dd></div>
+            <div><dt>JavaScript</dt><dd>以原生 ES Modules 實作回合流程、規則判定和提示詞組裝。</dd></div>
+            <div><dt>JSON 角色資料</dt><dd>隨機組合職業、個人資訊、特質與經歷四份各自獨立的資料。</dd></div>
+            <div><dt>GitHub Actions</dt><dd>推送到 main 後自動部署到 GitHub Pages。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>回合規則和猜測判定由確定性程式處理，模型只負責以角色口吻回覆。規則書轉成精簡提示詞，與壓縮過的人物資料一起送給模型。網址加上測試參數可改用假模型，不必下載模型。</p>
+          <ol class="flow tone-play" role="list" aria-label="資料流程">
+            <li>隨機抽出客人</li><li>送出閒聊訊息</li><li>規則檢查與模型回覆</li><li>判定猜測並計次</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>角色資料與提示詞</h3>
+              <p>從四個資料夾各抽一份 JSON 組成客人，再依字數預算壓縮成人物區塊。規則書的精簡版與人物資料一起組成系統提示詞。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Random-Ppl-Talk/blob/main/js/data.js"><code>js/data.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Random-Ppl-Talk/blob/main/js/prompt.js"><code>js/prompt.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Random-Ppl-Talk/blob/main/skill.md"><code>skill.md</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Random-Ppl-Talk/blob/main/scripts/sync-data.mjs"><code>scripts/sync-data.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>規則與猜測判定</h3>
+              <p>規則層計算每關次數、偵測直接問職業，並以兩道關卡先抽出猜測的職稱，再與答案比對。接近的猜測才交給模型確認，模型無法把不相關的猜測判為答對。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Random-Ppl-Talk/blob/main/js/rules.js"><code>js/rules.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Random-Ppl-Talk/blob/main/tests/rules.test.mjs"><code>tests/rules.test.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Random-Ppl-Talk/blob/main/tests/judge.test.mjs"><code>tests/judge.test.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>本機模型與遊戲流程</h3>
+              <p>載入器檢查 WebGPU 並依裝置選擇模型，限制單次只生成一段並裁剪過長的對話。遊戲主程式管理關卡、存檔還原與裝置遺失後的重新載入。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Random-Ppl-Talk/blob/main/js/llm.js"><code>js/llm.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Random-Ppl-Talk/blob/main/js/game.js"><code>js/game.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Random-Ppl-Talk/blob/main/js/fake-engine.js"><code>js/fake-engine.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Random-Ppl-Talk/blob/main/js/debug.js"><code>js/debug.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-play">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>職業難度分級</h3><p>依職業的常見程度或線索明顯度調整關卡，讓高關卡出現更冷門的職業。</p></li>
+            <li><h3>提示額度</h3><p>用剩餘次數換取一則額外線索，在安全度與挑戰間讓玩家取捨。</p></li>
+            <li><h3>對話回顧卡</h3><p>結算時整理客人透露的線索與猜錯的職業，方便分享或重玩。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

@@ -29,7 +29,7 @@
         <p class="hero-date"><span aria-hidden="true"></span>2026 年 10 月起</p>
         <h1 id="site-title"><span class="hero-name">Dotdot<span class="hero-period">.</span></span>專案索引</h1>
         <p class="hero-description">從創作工具到遊戲與日常實驗，翻開每個專案的技術與架構。</p>
-        <a class="button button--hero" href="#projects">瀏覽 24 個專案 <span class="arrow" aria-hidden="true">↓</span></a>
+        <a class="button button--hero" href="#projects">瀏覽 26 個專案 <span class="arrow" aria-hidden="true">↓</span></a>
       </div>
       <div class="hero-art" aria-hidden="true">
         <div class="mosaic">
@@ -58,9 +58,45 @@
           <button type="button" class="tone-learn" data-filter="learn" aria-pressed="false"><span aria-hidden="true"></span>學習與筆記</button>
           <button type="button" class="tone-tools" data-filter="tools" aria-pressed="false"><span aria-hidden="true"></span>實用工具</button>
         </div>
-        <p class="result-count" id="result-count" role="status">24 個專案</p>
+        <p class="result-count" id="result-count" role="status">26 個專案</p>
       </div>
       <ul class="project-grid" role="list" aria-label="專案列表">
+      <li class="project-item" data-category="play" data-search="BPM Slash Bpm-Slash 遊戲 在拍點上揮劍的橫向卷軸節奏遊戲，你的攻擊就是鼓組。 操控火柴人在去鼓伴奏中戰鬥，兩個攻擊鍵分別打出大鼓與小鼓，每次攻擊都會吸附到音樂的節拍格上。前拍與後拍的招式不同，敵人、尖刺和舞池也只在拍點行動。可選內建曲，或上傳自己的去鼓伴奏並設定 BPM。 拍點斬 BPM Slash Canvas 2D Web Audio API JavaScript Node.js">
+        <a class="project-card tone-play" href="./projects/bpm-slash/" aria-labelledby="title-bpm-slash">
+          <div class="card-meta">
+            <span class="card-category"><span class="category-mark" aria-hidden="true"></span>遊戲</span>
+            <time datetime="2026-11-21">2026.11.21</time>
+          </div>
+          <div class="card-copy">
+            <h3 id="title-bpm-slash">BPM Slash</h3>
+            <p>在拍點上揮劍的橫向卷軸節奏遊戲，你的攻擊就是鼓組。</p>
+          </div>
+          <div class="card-footer">
+            <ul class="tags" aria-label="主要技術">
+              <li>Canvas 2D</li><li>Web Audio API</li>
+            </ul>
+            <span class="card-arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+      </li>
+      <li class="project-item" data-category="play" data-search="Random Ppl Talk Random-Ppl-Talk 遊戲 扮演酒保，和隨機客人閒聊並猜出他的職業。 每一關會有一位隨機組成的虛構客人坐到吧台前，你要在限定的訊息次數內，從閒聊的線索猜出對方的職業。客人由瀏覽器內的小型語言模型扮演，不會直接說出職稱，也不能直接問職業。通過的關卡越多，可用的訊息次數越少。 隨機的人聊聊 Random ppl talk WebLLM / WebGPU JavaScript JSON 角色資料 GitHub Actions">
+        <a class="project-card tone-play" href="./projects/random-ppl-talk/" aria-labelledby="title-random-ppl-talk">
+          <div class="card-meta">
+            <span class="card-category"><span class="category-mark" aria-hidden="true"></span>遊戲</span>
+            <time datetime="2026-11-20">2026.11.20</time>
+          </div>
+          <div class="card-copy">
+            <h3 id="title-random-ppl-talk">Random Ppl Talk</h3>
+            <p>扮演酒保，和隨機客人閒聊並猜出他的職業。</p>
+          </div>
+          <div class="card-footer">
+            <ul class="tags" aria-label="主要技術">
+              <li>WebLLM / WebGPU</li><li>JavaScript</li>
+            </ul>
+            <span class="card-arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+      </li>
       <li class="project-item" data-category="tools" data-search="Repo Guide for Dotdot Repo-Guide-for-Dotdot 實用工具 用一個可搜尋的工程索引，串起 Dotdot 的公開作品。 這個網站收錄 2026 年 10 月起建立的公開 GitHub 專案。首頁提供依類別與技術關鍵字瀏覽的卡片，詳情頁把用途、資料流、原始碼入口和擴充構想放在一起，方便快速判斷要從哪裡開始讀。 Node.js HTML / CSS JavaScript GitHub Pages">
         <a class="project-card tone-tools" href="./projects/repo-guide/" aria-labelledby="title-repo-guide">
           <div class="card-meta">
@@ -97,7 +133,7 @@
           </div>
         </a>
       </li>
-      <li class="project-item" data-category="creative" data-search="Art Day Friends Art-Day-Friends 創作工具 每天畫一張給好友看，把自己的作品留在藝術日曆。 用手機上傳手稿或直接在畫板畫圖，也可以記一段文字。好友能看當天的作品並留言。自己的畫累積在本機日曆，雲端分享只保留當日的壓縮副本，留言可隨日曆備份。 藝術小日曆 JavaScript IndexedDB Supabase Canvas">
+      <li class="project-item" data-category="creative" data-search="Art Day Friends Art-Day-Friends 創作工具 每天畫一張給好友看，把自己的作品留在藝術日曆。 用手機上傳手稿或直接在畫板畫圖，也可以記一段文字。好友能看當天的作品、留言與回覆，還能戳對方去畫圖，或到許願池與打氣區留話。自己的畫累積在本機日曆，雲端分享只保留當日的壓縮副本，留言可隨日曆備份。 藝術小日曆 JavaScript IndexedDB Supabase Canvas">
         <a class="project-card tone-creative" href="./projects/art-day-friends/" aria-labelledby="title-art-day-friends">
           <div class="card-meta">
             <span class="card-category"><span class="category-mark" aria-hidden="true"></span>創作工具</span>
@@ -457,7 +493,7 @@
           </div>
         </a>
       </li>
-      <li class="project-item" data-category="health" data-search="Water Town Water-Town 生活健康 每次記錄喝水，都能讓一座 3D 小鎮長出新景色。 設定水壺容量後記錄每日飲水，累積的水量讓小島擴張、植物生長和水源幣增加。可編輯小鎮布局、看飲水日記以及拍一張立體城市明信片。 喝水小鎮 Three.js JavaScript PWA / localStorage Node.js">
+      <li class="project-item" data-category="health" data-search="Water Town Water-Town 生活健康 每次記錄喝水，都能讓一座 3D 小鎮長出新景色。 設定水壺容量後記錄每日飲水，累積的水量讓小島擴張、植物生長和水源幣增加。小鎮土地達到 7×7 後會開放熱帶雨林，雨林再擴張後開放海底亞特蘭提斯，每個領地有自己的地形、植物與建築。可編輯布局、看飲水日記以及拍一張立體城市明信片。 喝水小鎮 Three.js JavaScript PWA / localStorage Node.js">
         <a class="project-card tone-health" href="./projects/water-town/" aria-labelledby="title-water-town">
           <div class="card-meta">
             <span class="card-category"><span class="category-mark" aria-hidden="true"></span>生活健康</span>

@@ -1,0 +1,107 @@
+<!doctype html>
+<!-- 由 scripts/build.mjs 產生。更新 data/projects.json 後請重新建置。 -->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="在拍點上揮劍的橫向卷軸節奏遊戲，你的攻擊就是鼓組。">
+  <title>BPM Slash | Dotdot 專案索引</title>
+  <link rel="canonical" href="https://dot7dot.github.io/Repo-Guide-for-Dotdot/projects/bpm-slash/">
+  <link rel="icon" href="../../public/icon.png" type="image/png">
+  <link rel="stylesheet" href="../../public/styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../" aria-label="Dotdot 專案索引首頁"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Dotdot<span class="brand-period">.</span></span></a>
+      <nav aria-label="主導覽">
+        <a class="header-index" href="../../#projects">專案索引</a>
+        <a class="button button--outline" href="https://github.com/Dot7dot">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell detail" id="main" tabindex="-1">
+    <a class="back-link" href="../../#projects"><span class="arrow" aria-hidden="true">←</span> 回到專案一覽</a>
+    <header class="detail-hero tone-play">
+      <div class="detail-meta">
+        <span class="card-category"><span class="category-mark" aria-hidden="true"></span>遊戲</span>
+        <span class="detail-date">建立於 <time datetime="2026-11-21">2026.11.21</time></span>
+      </div>
+      <h1>BPM Slash</h1>
+      <p>在拍點上揮劍的橫向卷軸節奏遊戲，你的攻擊就是鼓組。</p>
+      <div class="detail-actions">
+        <a class="button button--dark" href="https://dot7dot.github.io/Bpm-Slash/">開啟作品 <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="button button--outline" href="https://github.com/Dot7dot/Bpm-Slash">GitHub 原始碼 <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="detail-body">
+      <nav class="section-nav" aria-label="詳情目錄">
+        <ul><li><a href="#overview">專案簡介</a></li><li><a href="#stack">使用技術</a></li><li><a href="#architecture">架構概覽</a></li><li><a href="#implementation">詳細架構</a></li><li><a href="#ideas">未來擴充構想</a></li></ul>
+      </nav>
+      <div class="detail-content">
+        <section id="overview" class="detail-section">
+          <h2>專案簡介</h2>
+          <p>操控火柴人在去鼓伴奏中戰鬥，兩個攻擊鍵分別打出大鼓與小鼓，每次攻擊都會吸附到音樂的節拍格上。前拍與後拍的招式不同，敵人、尖刺和舞池也只在拍點行動。可選內建曲，或上傳自己的去鼓伴奏並設定 BPM。</p>
+        </section>
+        <section id="stack" class="detail-section">
+          <h2>使用技術</h2>
+          <dl class="stack-list">
+            <div><dt>Canvas 2D</dt><dd>繪製火柴人、敵人、舞池背景和遊戲內 HUD。</dd></div>
+            <div><dt>Web Audio API</dt><dd>以音訊時鐘為主時鐘，排程鼓聲並程式合成音色。</dd></div>
+            <div><dt>JavaScript</dt><dd>以原生 ES Modules 實作，無相依與建置步驟。</dd></div>
+            <div><dt>Node.js</dt><dd>以內建測試執行器和 Playwright 稽核節奏精準度。</dd></div>
+          </dl>
+        </section>
+        <section id="architecture" class="detail-section">
+          <h2>架構概覽</h2>
+          <p>所有節拍事件都由音訊時鐘推算，不依賴計時器累加。純函式的節拍數學與 BeatSnap 可在 Node 測試，戰鬥、敵人和世界事件只訂閱節拍事件。</p>
+          <ol class="flow tone-play" role="list" aria-label="資料流程">
+            <li>按下大鼓或小鼓</li><li>吸附到拍點格</li><li>判定與連段加成</li><li>世界隨拍點反應</li>
+          </ol>
+        </section>
+        <section id="implementation" class="detail-section">
+          <h2>詳細架構</h2>
+          <ul class="module-list">
+            <li>
+              <h3>拍點吸附與判定</h3>
+              <p>純函式把按鍵時間換算成 tick，決定落在哪個落點格，並獨立計算準拍判定。連段、節奏型與狂熱量表也在核心層以可測試的方式實作。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/core/beatSnap.js"><code>js/core/beatSnap.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/core/beatMath.js"><code>js/core/beatMath.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/core/comboTracker.js"><code>js/core/comboTracker.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/core/groove.js"><code>js/core/groove.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>音訊時鐘與鼓組</h3>
+              <p>指揮器以音訊時間產生拍點事件，音訊引擎負責解碼、播放與排程。鼓組音色依拍位強弱合成，並加上齊奏、招架與連段音效。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/audio/conductor.js"><code>js/audio/conductor.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/audio/audioEngine.js"><code>js/audio/audioEngine.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/audio/sfxVoices.js"><code>js/audio/sfxVoices.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/core/bpmDetect.js"><code>js/core/bpmDetect.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>戰鬥與歌曲驅動世界</h3>
+              <p>兩支鼓各有攻擊佇列，命中、齊奏與招架在戰鬥模組判定。敵人和尖刺只在拍點行動，歌曲能量段落決定生怪量與燈光強度。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/game/combat.js"><code>js/game/combat.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/game/enemies.js"><code>js/game/enemies.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/game/game.js"><code>js/game/game.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/core/songMap.js"><code>js/core/songMap.js</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+            <li>
+              <h3>選單與節奏稽核</h3>
+              <p>選單處理選歌、上傳、BPM 與延遲校正，設定存在本機。稽核工具以無頭瀏覽器檢查攻擊與事件是否落在拍點網格上。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/ui/menu.js"><code>js/ui/menu.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/js/ui/settings.js"><code>js/ui/settings.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/tools/rhythm-audit.mjs"><code>tools/rhythm-audit.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Bpm-Slash/blob/main/tests/beatSnap.test.mjs"><code>tests/beatSnap.test.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="ideas" class="detail-section ideas tone-play">
+          <h2>未來擴充構想</h2>
+          <ul>
+            <li><h3>鼓譜回放</h3><p>記錄一場的大鼓與小鼓落點，結算後以譜線重播並匯出分享。</p></li>
+            <li><h3>關卡編排器</h3><p>讓使用者依自己的歌曲標出段落與敵人密度，保存成可分享的小檔。</p></li>
+            <li><h3>節奏型挑戰</h3><p>指定要完成的節奏型，鼓勵玩家練習不同的鼓點組合。</p></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Dotdot · 公開 GitHub 專案</span>
+      <a href="#top">回到頂端 <span class="arrow" aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

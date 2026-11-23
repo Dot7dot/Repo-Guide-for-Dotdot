@@ -43,7 +43,7 @@
       <div class="detail-content">
         <section id="overview" class="detail-section">
           <h2>專案簡介</h2>
-          <p>設定水壺容量後記錄每日飲水，累積的水量讓小島擴張、植物生長和水源幣增加。可編輯小鎮布局、看飲水日記以及拍一張立體城市明信片。</p>
+          <p>設定水壺容量後記錄每日飲水，累積的水量讓小島擴張、植物生長和水源幣增加。小鎮土地達到 7×7 後會開放熱帶雨林，雨林再擴張後開放海底亞特蘭提斯，每個領地有自己的地形、植物與建築。可編輯布局、看飲水日記以及拍一張立體城市明信片。</p>
         </section>
         <section id="stack" class="detail-section">
           <h2>使用技術</h2>
@@ -56,18 +56,18 @@
         </section>
         <section id="architecture" class="detail-section">
           <h2>架構概覽</h2>
-          <p>喝水事件先進到規則層，換算水量與遊戲狀態，再由介面及 Three.js 同步呈現。遊戲狀態可用純 JavaScript 測試。</p>
+          <p>喝水事件先進到規則層，換算水量與遊戲狀態，再由介面及 Three.js 同步呈現。各領地的資料用視圖切換，共用水源幣與背包，遊戲狀態可用純 JavaScript 測試。</p>
           <ol class="flow tone-health" role="list" aria-label="資料流程">
-            <li>選水壺和飲量</li><li>計算水量及成長</li><li>保存日記和地圖</li><li>更新 3D 場景</li>
+            <li>選水壺和飲量</li><li>計算水量及成長</li><li>解鎖領地並存檔</li><li>更新 3D 場景</li>
           </ol>
         </section>
         <section id="implementation" class="detail-section">
           <h2>詳細架構</h2>
           <ul class="module-list">
             <li>
-              <h3>成長與地形規則</h3>
-              <p>規則層處理有效水量、土地解鎖、植物棲地與每日成長。植物、建築和水壺資料集中在獨立模組。</p>
-              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/js/game.js"><code>js/game.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/js/data.js"><code>js/data.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/tests/game.test.mjs"><code>tests/game.test.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
+              <h3>成長與領地規則</h3>
+              <p>規則層處理有效水量、土地解鎖、植物棲地與每日成長，並以領地視圖讓同一套規則套用在小鎮、雨林與海底。領地的地形、植物和建築集中在獨立資料模組。</p>
+              <ul class="file-links" aria-label="對應原始碼"><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/js/game.js"><code>js/game.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/js/data.js"><code>js/data.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/js/realmdata.js"><code>js/realmdata.js</code><span class="arrow" aria-hidden="true">↗</span></a></li><li><a href="https://github.com/Dot7dot/Water-Town/blob/main/tests/game.test.mjs"><code>tests/game.test.mjs</code><span class="arrow" aria-hidden="true">↗</span></a></li></ul>
             </li>
             <li>
               <h3>3D 與手勢</h3>
@@ -84,7 +84,7 @@
         <section id="ideas" class="detail-section ideas tone-health">
           <h2>未來擴充構想</h2>
           <ul>
-            <li><h3>小鎮成長縮時</h3><p>每日保存輕量布局快照，自動回放地形解鎖與新建物。</p></li>
+            <li><h3>小鎮成長縮時</h3><p>每日保存輕量布局快照，自動回放地形解鎖、新領地與新建物。</p></li>
             <li><h3>島嶼生態導覽</h3><p>點選植物時標亮適合生長的格子，解釋和水邊、沙地或建物的關係。</p></li>
             <li><h3>相片模式</h3><p>在不改變遊戲進度的情況下切換時間、天氣與裁切比例來拍攝小鎮。</p></li>
           </ul>
